@@ -267,7 +267,7 @@ const Services = () => {
                 {/* 3D Model Viewer */}
                 <div className="relative w-full h-full">
                   <Model3DViewer 
-                    modelPath="/src/assets/model.glb"
+                    modelPath="/model.glb"
                     scale={2.5}
                     position={[0, -0.5, 0]}
                     rotation={[0, 0, 0]}
