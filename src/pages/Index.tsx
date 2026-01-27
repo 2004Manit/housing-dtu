@@ -809,8 +809,9 @@ const Index = () => {
             loop 
             muted 
             playsInline
-            preload="auto"
-            disablePictureInPicture
+           preload="metadata"  
+  disablePictureInPicture
+  // loading="lazy"  
             className="w-full h-full object-cover brightness-[1.2]"
             style={{ 
               transform: 'scale(1.02)', 
@@ -901,7 +902,9 @@ const Index = () => {
                       loop 
                       muted 
                       playsInline
+                      preload="none"  
                       disablePictureInPicture
+                      // loading="lazy"
                       controlsList="nodownload nofullscreen noremoteplayback"
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
@@ -1095,7 +1098,9 @@ const Index = () => {
                       loop 
                       muted 
                       playsInline
+                      preload="none"
                       disablePictureInPicture
+                      // loading="lazy"
                       controlsList="nodownload nofullscreen noremoteplayback"
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
