@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -15,19 +14,5 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // Add asset handling for 3D models
-  assetsInclude: ['**/*.glb', '**/*.gltf'],
-  build: {
-    rollupOptions: {
-      output: {
-        assetFileNames: (assetInfo) => {
-          // Keep 3D model files in assets folder with their original names
-          if (assetInfo.name && /\.(glb|gltf)$/.test(assetInfo.name)) {
-            return 'assets/[name][extname]';
-          }
-          return 'assets/[name]-[hash][extname]';
-        },
-      },
-    },
-  },
+  // Remove the custom build config - let Vite handle public files normally
 }));

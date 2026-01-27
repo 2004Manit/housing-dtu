@@ -1,4 +1,4 @@
-import React , { Suspense, useRef, useState, useEffect } from 'react';
+import React, { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, PerspectiveCamera, Environment } from '@react-three/drei';
 import { motion } from 'framer-motion';
@@ -18,12 +18,14 @@ function Model({
   modelPath, 
   scale = 1, 
   position = [0, 0, 0],
-  rotation = [0, 0, 0]
+  rotation = [0, 0, 0],
+  onLoad
 }: {
   modelPath: string;
   scale: number;
   position: [number, number, number];
   rotation: [number, number, number];
+  onLoad?: () => void;
 }) {
   const { scene } = useGLTF(modelPath);
   const modelRef = useRef<THREE.Group>(null);
@@ -35,8 +37,11 @@ function Model({
       const center = box.getCenter(new THREE.Vector3());
       modelRef.current.position.sub(center);
       modelRef.current.position.add(new THREE.Vector3(...position));
+      
+      // Notify that model is loaded
+      onLoad?.();
     }
-  }, [scene, position]);
+  }, [scene, position, onLoad]);
 
   return (
     <group ref={modelRef} rotation={rotation}>
@@ -45,10 +50,10 @@ function Model({
   );
 }
 
-// Loading component
-function LoadingSpinner() {
+// Loading component with progress indication
+function LoadingSpinner({ progress }: { progress: number }) {
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-transparent">
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-20">
       <div className="relative">
         <motion.div
           className="w-16 h-16 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full"
@@ -64,6 +69,26 @@ function LoadingSpinner() {
           <div className="w-2 h-2 bg-cyan-400 rounded-full" />
         </motion.div>
       </div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6 text-center"
+      >
+        <p className="text-cyan-400 font-medium text-sm mb-2">Loading 3D Model...</p>
+        {progress > 0 && (
+          <div className="w-48 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-cyan-500 to-blue-500"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+        )}
+        <p className="text-gray-500 text-xs mt-2">
+          {progress > 0 ? `${Math.round(progress)}%` : 'Initializing...'}
+        </p>
+      </motion.div>
     </div>
   );
 }
@@ -113,19 +138,33 @@ const Model3DViewer = ({
 }: Model3DViewerProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
 
-  // Handle loading complete
+  // Simulate loading progress (you can replace this with actual loading progress if available)
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (isLoading) {
+      const interval = setInterval(() => {
+        setLoadProgress((prev) => {
+          if (prev >= 90) return prev; // Stop at 90% until actual load
+          return prev + Math.random() * 10;
+        });
+      }, 300);
+      return () => clearInterval(interval);
+    }
+  }, [isLoading]);
+
+  const handleModelLoad = () => {
+    setLoadProgress(100);
+    // Small delay to show 100% before hiding
+    setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 500);
+  };
 
   return (
     <div className={`relative w-full h-full ${className}`}>
       {/* Loading Overlay */}
-      {isLoading && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner progress={loadProgress} />}
       
       {/* Error Overlay */}
       {error && <ErrorFallback error={error} />}
@@ -134,10 +173,13 @@ const Model3DViewer = ({
       {!error && (
         <Canvas
           shadows
+          dpr={[1, 2]} // Limit device pixel ratio for better performance
+          performance={{ min: 0.5 }} // Allow performance throttling on slower devices
           gl={{ 
             antialias: true, 
             alpha: true,
-            preserveDrawingBuffer: true 
+            preserveDrawingBuffer: true,
+            powerPreference: "high-performance" // Request high-performance GPU
           }}
           onCreated={({ gl }) => {
             gl.setClearColor('#000000', 0);
@@ -151,14 +193,14 @@ const Model3DViewer = ({
             position={[10, 10, 5]} 
             intensity={1} 
             castShadow
-            shadow-mapSize-width={2048}
-            shadow-mapSize-height={2048}
+            shadow-mapSize-width={1024} // Reduced from 2048 for better performance
+            shadow-mapSize-height={1024}
           />
           <directionalLight position={[-10, -10, -5]} intensity={0.3} />
           <pointLight position={[0, 5, 5]} intensity={0.5} />
           
           {/* Environment for realistic reflections */}
-          <Environment preset="studio" />
+          <Environment preset="city" /> {/* Changed to city for better performance than studio */}
           
           {/* Model with Error Boundary */}
           <Suspense fallback={null}>
@@ -168,6 +210,7 @@ const Model3DViewer = ({
                 scale={scale} 
                 position={position}
                 rotation={rotation}
+                onLoad={handleModelLoad}
               />
             </ErrorBoundary>
           </Suspense>
@@ -182,21 +225,24 @@ const Model3DViewer = ({
             autoRotateSpeed={2}
             enableDamping
             dampingFactor={0.05}
+            makeDefault
           />
         </Canvas>
       )}
 
       {/* Instructions Overlay (bottom) */}
-          <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.5 }}
-      className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-black/40 backdrop-blur-sm rounded-full border border-cyan-500/30 pointer-events-none max-w-[90%]"
-    >
-      <p className="text-[10px] sm:text-xs text-cyan-400 text-center">
-        Click & drag to rotate • Scroll to zoom
-      </p>
-    </motion.div>
+      {!isLoading && !error && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-black/40 backdrop-blur-sm rounded-full border border-cyan-500/30 pointer-events-none max-w-[90%]"
+        >
+          <p className="text-[10px] sm:text-xs text-cyan-400 text-center">
+            Click & drag to rotate • Scroll to zoom
+          </p>
+        </motion.div>
+      )}
 
       {/* Decorative Glowing Border */}
       <div className="absolute inset-0 rounded-lg pointer-events-none">
@@ -238,9 +284,7 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-// Preload the model to avoid loading delays
-export function preloadModel(modelPath: string) {
-  useGLTF.preload(modelPath);
-}
+// Preload the model to improve initial load time
+useGLTF.preload('/model.glb');
 
 export default Model3DViewer;
