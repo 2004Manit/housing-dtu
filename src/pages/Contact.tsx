@@ -19,58 +19,70 @@ const ContactUsPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setShowError(false);
-    setShowSuccess(false);
+  e.preventDefault();
+  setIsSubmitting(true);
+  setShowError(false);
+  setShowSuccess(false);
 
-    try {
-      console.log('📤 Submitting contact form...', formData);
-
-      // Insert into Supabase
-      const { data, error } = await supabase
-        .from('contact_submissions')
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject,
-            message: formData.message,
-          }
-        ])
-        .select();
-
-      if (error) {
-        console.error('❌ Error submitting form:', error);
-        throw error;
-      }
-
-      console.log('✅ Form submitted successfully:', data);
-
-      // Show success message
-      setShowSuccess(true);
-
-      // Clear form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-
-      // Auto-hide success message after 5 seconds
-      setTimeout(() => {
-        setShowSuccess(false);
-      }, 5000);
-
-    } catch (err: any) {
-      console.error('❌ Submission error:', err);
-      setErrorMessage(err.message || 'Failed to submit. Please try again.');
-      setShowError(true);
-    } finally {
-      setIsSubmitting(false);
+  try {
+    console.log('📤 Submitting contact form...', formData);
+    
+    // ADD THIS: Ensure we're using anonymous session
+    const { data: sessionData } = await supabase.auth.getSession();
+    console.log('🔐 Current session:', sessionData.session ? 'authenticated' : 'anonymous');
+    
+    // If there's a stale session, sign out first
+    if (!sessionData.session) {
+      await supabase.auth.signOut();
     }
-  };
+
+    // Insert into Supabase
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }
+      ])
+      .select();
+
+    if (error) {
+      console.error('❌ Error submitting form:', error);
+      console.error('❌ Error code:', error.code);
+      console.error('❌ Error details:', error.details);
+      console.error('❌ Error hint:', error.hint);
+      throw error;
+    }
+
+    console.log('✅ Form submitted successfully:', data);
+
+    // Show success message
+    setShowSuccess(true);
+
+    // Clear form
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+
+    // Auto-hide success message after 5 seconds
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 5000);
+
+  } catch (err: any) {
+    console.error('❌ Submission error:', err);
+    setErrorMessage(err.message || 'Failed to submit. Please try again.');
+    setShowError(true);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
