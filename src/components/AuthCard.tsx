@@ -18,7 +18,7 @@ interface AuthCardProps {
 
 export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardProps) => {
   const navigate = useNavigate();
-  const { signUp, signIn, signInWithGoogle } = useAuth();
+  const { signUp, signIn, signInWithGoogle, user } = useAuth();
   const { toast } = useToast();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -37,40 +37,64 @@ export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardPr
   const [signupPassword, setSignupPassword] = useState("");
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
 
-  // Track if OAuth popup was opened
-  const oauthPopupOpenedRef = useRef(false);
+  // Track if OAuth was initiated
+  const oauthInitiatedRef = useRef(false);
   const oauthTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const oauthStartTimeRef = useRef<number | null>(null);
 
-  // Handle OAuth popup cancellation
+  // Handle OAuth popup/redirect cancellation - works on both desktop and mobile
   useEffect(() => {
-    const handleWindowFocus = () => {
-      // If OAuth popup was opened and we regain focus, 
-      // set a timeout to reset loading if auth didn't complete
-      if (oauthPopupOpenedRef.current) {
+    const handleVisibilityChange = () => {
+      // When page becomes visible again after OAuth was initiated
+      if (document.visibilityState === 'visible' && oauthInitiatedRef.current) {
         // Clear any existing timeout
         if (oauthTimeoutRef.current) {
           clearTimeout(oauthTimeoutRef.current);
         }
 
-        // Wait a bit to see if auth completes
+        // Wait a bit to allow auth to complete
         oauthTimeoutRef.current = setTimeout(() => {
-          // If we're still in loading state after regaining focus,
-          // it means user closed the popup without completing auth
-          setLoading(false);
-          oauthPopupOpenedRef.current = false;
-        }, 1000); // 1 second delay to allow auth to complete
+          // Check if user is still not authenticated
+          // If OAuth succeeded, user would be set by now
+          if (!user && oauthInitiatedRef.current) {
+            // OAuth was canceled or failed
+            setLoading(false);
+            oauthInitiatedRef.current = false;
+            oauthStartTimeRef.current = null;
+          }
+        }, 1500); // Increased to 1.5 seconds for mobile
       }
     };
 
+    const handleWindowFocus = () => {
+      // Desktop backup: handle focus event for popup-based OAuth
+      if (oauthInitiatedRef.current) {
+        if (oauthTimeoutRef.current) {
+          clearTimeout(oauthTimeoutRef.current);
+        }
+
+        oauthTimeoutRef.current = setTimeout(() => {
+          if (!user && oauthInitiatedRef.current) {
+            setLoading(false);
+            oauthInitiatedRef.current = false;
+            oauthStartTimeRef.current = null;
+          }
+        }, 1500);
+      }
+    };
+
+    // Use both events for maximum compatibility
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('focus', handleWindowFocus);
 
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleWindowFocus);
       if (oauthTimeoutRef.current) {
         clearTimeout(oauthTimeoutRef.current);
       }
     };
-  }, []);
+  }, [user]); // Add user as dependency to check current auth state
 
   // Handle Login
   // Handle Login
@@ -191,7 +215,8 @@ export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardPr
   // Handle Google Sign In
   const handleGoogleSignIn = async () => {
     setLoading(true);
-    oauthPopupOpenedRef.current = true; // Mark that OAuth popup is opening
+    oauthInitiatedRef.current = true; // Mark that OAuth is starting
+    oauthStartTimeRef.current = Date.now(); // Track when OAuth started
 
     // Clear any stale return URLs first
     localStorage.removeItem('auth_return_url');
@@ -212,7 +237,8 @@ export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardPr
         });
         localStorage.removeItem('auth_return_url'); // Clean up on error
         setLoading(false);
-        oauthPopupOpenedRef.current = false; // Reset flag
+        oauthInitiatedRef.current = false; // Reset flag
+        oauthStartTimeRef.current = null;
       }
       // If successful, user will be redirected - don't reset loading
     } catch (err) {
@@ -223,7 +249,8 @@ export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardPr
       });
       localStorage.removeItem('auth_return_url'); // Clean up on error
       setLoading(false);
-      oauthPopupOpenedRef.current = false; // Reset flag
+      oauthInitiatedRef.current = false; // Reset flag
+      oauthStartTimeRef.current = null;
     }
   };
 
