@@ -62,7 +62,7 @@ export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardPr
             oauthInitiatedRef.current = false;
             oauthStartTimeRef.current = null;
           }
-        }, 1500); // Increased to 1.5 seconds for mobile
+        }, 800); // 0.8 seconds - fast UX while safe for mobile networks
       }
     };
 
@@ -79,7 +79,7 @@ export const AuthCard = ({ onSuccess, returnUrl, showHeader = true }: AuthCardPr
             oauthInitiatedRef.current = false;
             oauthStartTimeRef.current = null;
           }
-        }, 1500);
+        }, 800); // 0.8 seconds - matches mobile timeout
       }
     };
 
