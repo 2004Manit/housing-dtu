@@ -769,6 +769,8 @@ const Index = () => {
   useEffect(() => {
     const playVideo = async (videoElement: HTMLVideoElement) => {
       try {
+        // Upgrade to full load for better performance
+        videoElement.preload = 'auto';
         videoElement.muted = true;
         await videoElement.play();
       } catch (error) {
@@ -788,7 +790,10 @@ const Index = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      {
+        threshold: 0.1,
+        rootMargin: '200px'  // Start loading 200px before entering viewport
+      }
     );
 
     if (video1Ref.current) {
@@ -969,7 +974,7 @@ const Index = () => {
                       loop
                       muted
                       playsInline
-                      preload="auto"
+                      preload="metadata"
                       disablePictureInPicture
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
@@ -1169,7 +1174,7 @@ const Index = () => {
                       loop
                       muted
                       playsInline
-                      preload="auto"
+                      preload="metadata"
                       disablePictureInPicture
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
