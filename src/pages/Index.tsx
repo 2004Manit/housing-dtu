@@ -563,10 +563,10 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "" }: { end: number; d
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      
+
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const current = Math.floor(easeOutQuart * (end - startValue) + startValue);
-      
+
       setCount(current);
 
       if (progress < 1) {
@@ -593,14 +593,14 @@ const HeroCTAMoon = () => {
     const rect = section.getBoundingClientRect();
     const xPercent = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const yPercent = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    
+
     const moonBg = section.querySelector('.moon-background') as HTMLElement;
     const stars = section.querySelectorAll('.star');
-    
+
     if (moonBg) {
       moonBg.style.transform = `translate(${xPercent * 15}px, ${yPercent * 15}px)`;
     }
-    
+
     stars.forEach((star, index) => {
       const speed = (index % 4 + 1) * 1.5;
       (star as HTMLElement).style.transform = `translate(${xPercent * speed}px, ${yPercent * speed}px)`;
@@ -611,18 +611,18 @@ const HeroCTAMoon = () => {
     const section = e.currentTarget;
     const moonBg = section.querySelector('.moon-background') as HTMLElement;
     const stars = section.querySelectorAll('.star');
-    
+
     if (moonBg) {
       moonBg.style.transform = 'translate(0, 0)';
     }
-    
+
     stars.forEach(star => {
       (star as HTMLElement).style.transform = 'translate(0, 0)';
     });
   };
 
   return (
-    <section 
+    <section
       className="hero-cta-moon"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -631,7 +631,7 @@ const HeroCTAMoon = () => {
       <div className="moon-texture"></div>
       <div className="moonlight-rays"></div>
       <div className="atmosphere"></div>
-      
+
       <div className="stars">
         <div className="star tiny"></div>
         <div className="star small"></div>
@@ -664,15 +664,15 @@ const HeroCTAMoon = () => {
         <p className="subtitle">
           Browse verified PGs, flats, and connect with flatmates in minutes.
         </p>
-        
+
         <div className="cta-wrapper">
           <div className="button-glow"></div>
-          
-           <Link to="/properties" className="cta-button" style={{ textDecoration: 'none' }}>
+
+          <Link to="/properties" className="cta-button" style={{ textDecoration: 'none' }}>
             Start Your Search
             <span className="arrow">→</span>
-            </Link>
-         
+          </Link>
+
         </div>
       </div>
 
@@ -689,6 +689,11 @@ const Index = () => {
   const [isCTAVisible, setIsCTAVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+
+  // Video refs for autoplay fix
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const video1Ref = useRef<HTMLVideoElement>(null);
+  const video2Ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const statsObserver = new IntersectionObserver(
@@ -736,6 +741,63 @@ const Index = () => {
     if (verifiedSectionRef.current) {
       observer.observe(verifiedSectionRef.current);
     }
+    return () => observer.disconnect();
+  }, []);
+
+  // Force play hero video on mount (mobile autoplay fix)
+  useEffect(() => {
+    const playHeroVideo = async () => {
+      if (heroVideoRef.current) {
+        try {
+          // Ensure video is muted (required for autoplay on mobile)
+          heroVideoRef.current.muted = true;
+          await heroVideoRef.current.play();
+        } catch (error) {
+          console.log('Hero video autoplay prevented:', error);
+          // Retry after a short delay
+          setTimeout(() => {
+            heroVideoRef.current?.play().catch(() => { });
+          }, 500);
+        }
+      }
+    };
+
+    playHeroVideo();
+  }, []);
+
+  // Force play videos #2 and #3 when they enter viewport (mobile autoplay fix)
+  useEffect(() => {
+    const playVideo = async (videoElement: HTMLVideoElement) => {
+      try {
+        videoElement.muted = true;
+        await videoElement.play();
+      } catch (error) {
+        console.log('Video autoplay prevented:', error);
+        // Retry after a short delay
+        setTimeout(() => {
+          videoElement.play().catch(() => { });
+        }, 500);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.target instanceof HTMLVideoElement) {
+            playVideo(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (video1Ref.current) {
+      observer.observe(video1Ref.current);
+    }
+    if (video2Ref.current) {
+      observer.observe(video2Ref.current);
+    }
+
     return () => observer.disconnect();
   }, []);
 
@@ -800,24 +862,28 @@ const Index = () => {
       <style>{animationStyles}</style>
       <style>{heroCTAStyles}</style>
       <Navbar />
-      
+
       {/* Hero Section - FIXED FOR MOBILE */}
       <section className="relative pt-20 sm:pt-24 md:pt-32 pb-0 overflow-hidden min-h-[70vh] sm:min-h-[80vh] md:min-h-screen flex items-center">
         <div className="absolute inset-0">
-          <video 
-            autoPlay 
-            loop 
-            muted 
+          <video
+            ref={heroVideoRef}
+            autoPlay
+            loop
+            muted
             playsInline
-           preload="metadata"  
-  disablePictureInPicture
-  // loading="lazy"  
+            preload="auto"
+            disablePictureInPicture
+            onLoadedData={() => {
+              // Force play when video data is loaded (mobile fix)
+              heroVideoRef.current?.play().catch(() => { });
+            }}
             className="w-full h-full object-cover brightness-[1.2]"
-            style={{ 
-              transform: 'scale(1.02)', 
+            style={{
+              transform: 'scale(1.02)',
               transformOrigin: 'center center',
               WebkitFontSmoothing: 'antialiased',
-              
+
             }}
           >
             <source src="/best-video-new.mp4" type="video/mp4" />
@@ -826,7 +892,7 @@ const Index = () => {
 
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/15 to-background/50"></div>
-        
+
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div className="max-w-xl">
@@ -843,21 +909,21 @@ const Index = () => {
                 Your journey to finding the perfect property begins here. Explore our curated listings to find the home that matches your dreams.
               </p> */}
               <div className="flex flex-wrap gap-3 sm:gap-4 animate-fade-in-up stagger-2">
-                <Button 
-                  variant="hero" 
-                  size="sm" 
-                  asChild 
+                <Button
+                  variant="hero"
+                  size="sm"
+                  asChild
                   className="rounded-md hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/50 border-0 text-sm sm:text-base"
                 >
                   <Link to="/properties">Browse Properties</Link>
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="rounded-md hover:scale-105 transition-all duration-300 bg-white/10 hover:bg-white/20 border-white/30 hover:border-white/50 backdrop-blur-sm text-white shadow-lg text-sm sm:text-base"
                 >
                   <a href="/About">
-                  Learn More
+                    Learn More
                   </a>
                 </Button>
               </div>
@@ -871,14 +937,14 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center max-w-6xl mx-auto">
             <div className="flex justify-center items-center order-2 lg:order-1">
-              <div 
+              <div
                 className="relative w-full max-w-[280px] sm:max-w-[350px] md:max-w-[450px] lg:max-w-[550px]"
-                style={{ 
+                style={{
                   perspective: '1500px',
                   transformStyle: 'preserve-3d'
                 }}
               >
-                <div 
+                <div
                   className="relative rounded-2xl sm:rounded-3xl overflow-hidden animate-fade-in-up"
                   style={{
                     transformStyle: 'preserve-3d',
@@ -896,15 +962,19 @@ const Index = () => {
                 >
                   <div className="relative bg-black" style={{ aspectRatio: '16/10' }}>
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-teal-500/5 z-10 pointer-events-none"></div>
-                    
-                    <video 
-                      autoPlay 
-                      loop 
-                      muted 
+
+                    <video
+                      ref={video1Ref}
+                      autoPlay
+                      loop
+                      muted
                       playsInline
-                      preload="none"  
+                      preload="auto"
                       disablePictureInPicture
-                      // loading="lazy"
+                      onLoadedData={() => {
+                        // Force play when video data is loaded (mobile fix)
+                        video1Ref.current?.play().catch(() => { });
+                      }}
                       controlsList="nodownload nofullscreen noremoteplayback"
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
@@ -915,7 +985,7 @@ const Index = () => {
                     <div className="device-shine"></div>
                   </div>
 
-                  <div 
+                  <div
                     className="absolute inset-0 rounded-2xl sm:rounded-3xl pointer-events-none"
                     style={{
                       background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.08) 0%, transparent 50%, rgba(6, 182, 212, 0.08) 100%)'
@@ -973,20 +1043,20 @@ const Index = () => {
       {/* Verified Properties Section - FIXED FOR MOBILE */}
       <section ref={verifiedSectionRef} className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-purple-900/5"></div>
-        
+
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center max-w-7xl mx-auto">
-  
-  {/* Animation on top for mobile, right for desktop */}
-<div className="flex justify-center items-center order-1 lg:order-2 w-full">
-  <div className="flex items-center justify-center w-full">
-    <div className="max-w-[200px] sm:max-w-[250px] md:max-w-[350px] lg:max-w-[500px]">
-      <div className="aspect-square">
-        {showVerifiedAnimation && <VerifiedAnimationScene />}
-      </div>
-    </div>
-  </div>
-</div>
+
+            {/* Animation on top for mobile, right for desktop */}
+            <div className="flex justify-center items-center order-1 lg:order-2 w-full">
+              <div className="flex items-center justify-center w-full">
+                <div className="max-w-[200px] sm:max-w-[250px] md:max-w-[350px] lg:max-w-[500px]">
+                  <div className="aspect-square">
+                    {showVerifiedAnimation && <VerifiedAnimationScene />}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* Text content below animation on mobile, left on desktop */}
             <div className="space-y-4 sm:space-y-6 md:space-y-8 lg:pr-12 order-2 lg:order-1">
@@ -998,7 +1068,7 @@ const Index = () => {
                     100% Verified.
                   </span>
                 </h2>
-                
+
                 <div className="flex items-center gap-3 sm:gap-4">
                   <div className="h-1 w-16 sm:w-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full" />
                   <div className="h-1 w-10 sm:w-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full" />
@@ -1065,16 +1135,16 @@ const Index = () => {
       <section className="relative py-16 sm:py-24 md:py-40 overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center max-w-6xl mx-auto">
-            
+
             <div className="flex justify-center items-center">
-              <div 
+              <div
                 className="relative w-full max-w-[280px] sm:max-w-[350px] md:max-w-[450px] lg:max-w-[550px]"
-                style={{ 
+                style={{
                   perspective: '1500px',
                   transformStyle: 'preserve-3d'
                 }}
               >
-                <div 
+                <div
                   className="relative rounded-2xl sm:rounded-3xl overflow-hidden animate-fade-in-up"
                   style={{
                     transformStyle: 'preserve-3d',
@@ -1092,15 +1162,19 @@ const Index = () => {
                 >
                   <div className="relative bg-black" style={{ aspectRatio: '16/10' }}>
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-teal-500/5 z-10 pointer-events-none"></div>
-                    
-                    <video 
-                      autoPlay 
-                      loop 
-                      muted 
+
+                    <video
+                      ref={video2Ref}
+                      autoPlay
+                      loop
+                      muted
                       playsInline
-                      preload="none"
+                      preload="auto"
                       disablePictureInPicture
-                      // loading="lazy"
+                      onLoadedData={() => {
+                        // Force play when video data is loaded (mobile fix)
+                        video2Ref.current?.play().catch(() => { });
+                      }}
                       controlsList="nodownload nofullscreen noremoteplayback"
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
@@ -1111,7 +1185,7 @@ const Index = () => {
                     <div className="device-shine"></div>
                   </div>
 
-                  <div 
+                  <div
                     className="absolute inset-0 rounded-2xl sm:rounded-3xl pointer-events-none"
                     style={{
                       background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.08) 0%, transparent 50%, rgba(6, 182, 212, 0.08) 100%)'
@@ -1184,23 +1258,23 @@ const Index = () => {
       {/* Dual Action Cards Section */}
       <section ref={ctaRef} className="relative py-12 sm:py-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-background to-blue-900/20"></div>
-        
+
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500/15 rounded-full blur-2xl" style={{ willChange: 'opacity', transform: 'translateZ(0)' }}></div>
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-blue-500/15 rounded-full blur-2xl" style={{ willChange: 'opacity', transform: 'translateZ(0)' }}></div>
-        
+
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto items-stretch">
-            
-            <div 
+
+            <div
               className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-5 sm:p-6 md:p-7 shadow-2xl hover:shadow-purple-500/30 transition-all duration-500 animate-fade-in-up"
               style={{ animation: 'fadeInScale 0.6s ease-out forwards', willChange: 'transform', transform: 'translateZ(0)', contain: 'layout style paint' }}
             >
               <div className="absolute inset-0 rounded-xl sm:rounded-2xl overflow-hidden">
                 <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
               </div>
-              
+
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
-              
+
               <div className="relative z-10">
                 <div className="mb-4 sm:mb-5">
                   <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-400/30 mb-3">
@@ -1213,7 +1287,7 @@ const Index = () => {
                     Looking for a PG, flat, or apartment near DTU? Browse through our curated collection of properties tailored for students and professionals.
                   </p>
                 </div>
-                
+
                 <ul className="space-y-2 mb-5 sm:mb-6">
                   <li className="flex items-start text-white/70 text-xs sm:text-sm">
                     <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 mr-2 flex-shrink-0"></div>
@@ -1228,11 +1302,11 @@ const Index = () => {
                     <span>Properties within walking distance</span>
                   </li>
                 </ul>
-                
-                <Button 
-                  variant="hero" 
-                  size="lg" 
-                  asChild 
+
+                <Button
+                  variant="hero"
+                  size="lg"
+                  asChild
                   className="w-full group-hover:scale-105 transition-transform duration-300 shadow-lg shadow-purple-500/20 text-sm sm:text-base"
                 >
                   <Link to="/properties">
@@ -1240,20 +1314,20 @@ const Index = () => {
                   </Link>
                 </Button>
               </div>
-              
+
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
-            <div 
+            <div
               className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-5 sm:p-6 md:p-7 shadow-2xl hover:shadow-blue-500/30 transition-all duration-500 animate-fade-in-up"
               style={{ animation: 'fadeInScale 0.6s ease-out forwards 0.2s', willChange: 'transform', transform: 'translateZ(0)', contain: 'layout style paint' }}
             >
               <div className="absolute inset-0 rounded-xl sm:rounded-2xl overflow-hidden">
                 <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
               </div>
-              
+
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-gradient-to-r from-transparent via-blue-400/50 to-transparent"></div>
-              
+
               <div className="relative z-10">
                 <div className="mb-4 sm:mb-5">
                   <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 mb-3">
@@ -1266,7 +1340,7 @@ const Index = () => {
                     Have a property to rent out? Don't worry, we've got you covered! Reach out to thousands of potential tenants with ease.
                   </p>
                 </div>
-                
+
                 <ul className="space-y-2 mb-5 sm:mb-6">
                   <li className="flex items-start text-white/70 text-xs sm:text-sm">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 mr-2 flex-shrink-0"></div>
@@ -1281,11 +1355,11 @@ const Index = () => {
                     <span>Zero commission</span>
                   </li>
                 </ul>
-                
-                <Button 
-                  variant="hero" 
-                  size="lg" 
-                  asChild 
+
+                <Button
+                  variant="hero"
+                  size="lg"
+                  asChild
                   className="w-full group-hover:scale-105 transition-transform duration-300 shadow-lg shadow-blue-500/20 text-sm sm:text-base"
                 >
                   <Link to="/list-property">
@@ -1293,10 +1367,10 @@ const Index = () => {
                   </Link>
                 </Button>
               </div>
-              
+
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
-            
+
           </div>
         </div>
       </section>
