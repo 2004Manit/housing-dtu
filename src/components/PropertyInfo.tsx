@@ -16,7 +16,7 @@ interface PropertyInfoProps {
   flatAmenities?: FlatAmenity[];
   propertyType?: string; // 👈 ADD THIS
 
-  
+
 }
 
 export const PropertyInfo = ({
@@ -83,8 +83,8 @@ export const PropertyInfo = ({
     'geyser': 'Geyser',
     'separate-almirah': 'Separate Almirah',
     'mattress': 'Mattress',
-    'balcony-some': 'Balcony (Some Rooms)',
-    'balcony-all': 'Balcony (All Rooms)',
+    'balcony-some': 'Balcony (in rooms)',
+    'balcony-all': 'Common Balcony',
   };
 
   // Color mappings for visual variety
@@ -232,27 +232,27 @@ export const PropertyInfo = ({
   };
 
   const stats = propertyDetails ? [
-    { 
-      icon: ShieldCheck, 
-      label: "Status", 
+    {
+      icon: ShieldCheck,
+      label: "Status",
       value: propertyDetails.verificationStatus.charAt(0).toUpperCase() + propertyDetails.verificationStatus.slice(1),
       gradient: getStatusColor(),
       borderColor: getStatusBorderColor(),
       textColor: getStatusTextColor(),
       iconBg: getStatusIconBg()
     },
-    { 
-      icon: Wallet, 
-      label: "Security Deposit", 
+    {
+      icon: Wallet,
+      label: "Security Deposit",
       value: getDepositText(),
       gradient: 'from-blue-500/10 to-blue-600/5',
       borderColor: 'border-blue-500/20 hover:border-blue-500/40',
       textColor: 'text-blue-400',
       iconBg: 'bg-blue-500/20'
     },
-    { 
-      icon: UtensilsCrossed, 
-      label: "Mess", 
+    {
+      icon: UtensilsCrossed,
+      label: "Mess",
       value: getMessText(),
       gradient: 'from-orange-500/10 to-orange-600/5',
       borderColor: 'border-orange-500/20 hover:border-orange-500/40',
@@ -263,36 +263,36 @@ export const PropertyInfo = ({
 
   // Flat details stats (4 cards for flats)
   const flatStats = flatDetails ? [
-    { 
-      icon: UserPlus, 
-      label: "Flatmates Required", 
+    {
+      icon: UserPlus,
+      label: "Flatmates Required",
       value: flatDetails.flatmatesRequired,
       gradient: 'from-purple-500/10 to-purple-600/5',
       borderColor: 'border-purple-500/20 hover:border-purple-500/40',
       textColor: 'text-purple-400',
       iconBg: 'bg-purple-500/20'
     },
-    { 
-      icon: UsersRound, 
-      label: "Current Flatmates", 
+    {
+      icon: UsersRound,
+      label: "Current Flatmates",
       value: flatDetails.currentFlatmates.toString(),
       gradient: 'from-blue-500/10 to-blue-600/5',
       borderColor: 'border-blue-500/20 hover:border-blue-500/40',
       textColor: 'text-blue-400',
       iconBg: 'bg-blue-500/20'
     },
-    { 
-      icon: BadgeDollarSign, 
-      label: "Brokerage", 
+    {
+      icon: BadgeDollarSign,
+      label: "Brokerage",
       value: flatDetails.brokerage === 'zero-brokerage' ? 'Zero Brokerage' : 'Brokerage Applicable',
       gradient: flatDetails.brokerage === 'zero-brokerage' ? 'from-green-500/10 to-green-600/5' : 'from-orange-500/10 to-orange-600/5',
       borderColor: flatDetails.brokerage === 'zero-brokerage' ? 'border-green-500/20 hover:border-green-500/40' : 'border-orange-500/20 hover:border-orange-500/40',
       textColor: flatDetails.brokerage === 'zero-brokerage' ? 'text-green-400' : 'text-orange-400',
       iconBg: flatDetails.brokerage === 'zero-brokerage' ? 'bg-green-500/20' : 'bg-orange-500/20'
     },
-    { 
-      icon: Maximize2, 
-      label: "Flat Size", 
+    {
+      icon: Maximize2,
+      label: "Flat Size",
       value: flatDetails.flatSize,
       gradient: 'from-pink-500/10 to-pink-600/5',
       borderColor: 'border-pink-500/20 hover:border-pink-500/40',
@@ -302,177 +302,177 @@ export const PropertyInfo = ({
   ] : [];
 
   return (
-  <div className="space-y-8 sm:space-y-12">
-    {/* Property Stats (PG) */}
-    {propertyDetails && propertyType === 'PG' && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3"
-      >
-        {stats.map((stat, idx) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
-            whileHover={{ scale: 1.02, y: -4 }}
-            className={`bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300`}
-          >
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
-              <div className={`p-2 sm:p-3 ${stat.iconBg} rounded-lg`}>
-                <stat.icon className={stat.textColor} size={20} />
+    <div className="space-y-8 sm:space-y-12">
+      {/* Property Stats (PG) */}
+      {propertyDetails && propertyType === 'PG' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3"
+        >
+          {stats.map((stat, idx) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{ scale: 1.02, y: -4 }}
+              className={`bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300`}
+            >
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
+                <div className={`p-2 sm:p-3 ${stat.iconBg} rounded-lg`}>
+                  <stat.icon className={stat.textColor} size={20} />
+                </div>
+                <div className="text-center sm:text-left">
+                  <div className={`text-xl sm:text-2xl font-bold ${stat.textColor}`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                </div>
               </div>
-              <div className="text-center sm:text-left">
-                <div className={`text-xl sm:text-2xl font-bold ${stat.textColor}`}>
-                  {stat.value}
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+
+      {/* Flat Stats (Flats) */}
+      {flatDetails && propertyType === 'Flat' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4"
+        >
+          {flatStats.map((stat, idx) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{ scale: 1.02, y: -4 }}
+              className={`bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300`}
+            >
+              <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
+                <div className={`p-2 sm:p-3 ${stat.iconBg} rounded-lg`}>
+                  <stat.icon className={stat.textColor} size={20} />
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                <div>
+                  <div className={`text-xl sm:text-2xl font-bold ${stat.textColor}`}>
+                    {stat.value}
+                  </div>
+                  {stat.label !== "Brokerage" && (
+                    <div className="text-xs sm:text-sm text-muted-foreground mt-1">{stat.label}</div>
+                  )}
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    )}
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
 
-    {/* Flat Stats (Flats) */}
-    {flatDetails && propertyType === 'Flat' && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4"
-      >
-        {flatStats.map((stat, idx) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
-            whileHover={{ scale: 1.02, y: -4 }}
-            className={`bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300`}
-          >
-            <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
-              <div className={`p-2 sm:p-3 ${stat.iconBg} rounded-lg`}>
-                <stat.icon className={stat.textColor} size={20} />
-              </div>
-              <div>
-                <div className={`text-xl sm:text-2xl font-bold ${stat.textColor}`}>
-                  {stat.value}
-                </div>
-                {stat.label !== "Brokerage" && (
-                  <div className="text-xs sm:text-sm text-muted-foreground mt-1">{stat.label}</div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    )}
+      {/* Basic Facilities */}
+      {basicFacilities && basicFacilities.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: '#8BC6E0' }}>Basic Facilities</h3>
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4">
+            {basicFacilities.map((facility, idx) => {
+              const Icon = facilityIcons[facility];
+              const colors = facilityColors[facility];
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-lg border border-border hover:shadow-lg hover:scale-105 transition-all duration-300"
+                >
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
+                    <Icon className={colors.text} size={20} />
+                  </div>
+                  <span className="text-xs sm:text-sm text-center font-medium text-foreground leading-tight">{facilityLabels[facility]}</span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
 
-    {/* Basic Facilities */}
-    {basicFacilities && basicFacilities.length > 0 && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: '#8BC6E0' }}>Basic Facilities</h3>
-        <div className="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4">
-          {basicFacilities.map((facility, idx) => {
-            const Icon = facilityIcons[facility];
-            const colors = facilityColors[facility];
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-lg border border-border hover:shadow-lg hover:scale-105 transition-all duration-300"
-              >
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
-                  <Icon className={colors.text} size={20} />
-                </div>
-                <span className="text-xs sm:text-sm text-center font-medium text-foreground leading-tight">{facilityLabels[facility]}</span>
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
-    )}
+      {/* Room Amenities */}
+      {roomAmenities && roomAmenities.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: '#8BC6E0' }}>Room Amenities</h3>
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4">
+            {roomAmenities.map((amenity, idx) => {
+              const Icon = amenityIcons[amenity];
+              const colors = amenityColors[amenity];
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-lg border border-border hover:shadow-lg hover:scale-105 transition-all duration-300"
+                >
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
+                    <Icon className={colors.text} size={20} />
+                  </div>
+                  <span className="text-xs sm:text-sm text-center font-medium text-foreground leading-tight">{amenityLabels[amenity]}</span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
 
-    {/* Room Amenities */}
-    {roomAmenities && roomAmenities.length > 0 && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: '#8BC6E0' }}>Room Amenities</h3>
-        <div className="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4">
-          {roomAmenities.map((amenity, idx) => {
-            const Icon = amenityIcons[amenity];
-            const colors = amenityColors[amenity];
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-lg border border-border hover:shadow-lg hover:scale-105 transition-all duration-300"
-              >
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
-                  <Icon className={colors.text} size={20} />
-                </div>
-                <span className="text-xs sm:text-sm text-center font-medium text-foreground leading-tight">{amenityLabels[amenity]}</span>
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
-    )}
+      {/* All Flat Amenities */}
+      {flatAmenities && flatAmenities.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: '#8BC6E0' }}>All Flat Amenities</h3>
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4">
+            {flatAmenities.map((amenity, idx) => {
+              const Icon = flatAmenityIcons[amenity];
+              const colors = flatAmenityColors[amenity];
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-lg border border-border hover:shadow-lg hover:scale-105 transition-all duration-300"
+                >
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
+                    <Icon className={colors.text} size={20} />
+                  </div>
+                  <span className="text-xs sm:text-sm text-center font-medium text-foreground leading-tight">{flatAmenityLabels[amenity]}</span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
 
-    {/* All Flat Amenities */}
-    {flatAmenities && flatAmenities.length > 0 && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: '#8BC6E0' }}>All Flat Amenities</h3>
-        <div className="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4">
-          {flatAmenities.map((amenity, idx) => {
-            const Icon = flatAmenityIcons[amenity];
-            const colors = flatAmenityColors[amenity];
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-lg border border-border hover:shadow-lg hover:scale-105 transition-all duration-300"
-              >
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 ${colors.bg} rounded-full flex items-center justify-center`}>
-                  <Icon className={colors.text} size={20} />
-                </div>
-                <span className="text-xs sm:text-sm text-center font-medium text-foreground leading-tight">{flatAmenityLabels[amenity]}</span>
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
-    )}
-
-    {/* Disclaimer Note */}
-    <TypewriterDisclaimer 
-      text="Please note: Prices and features are listed as per the last update. For the most current information, please contact the owner."
-    />
-  </div>
-);
+      {/* Disclaimer Note */}
+      <TypewriterDisclaimer
+        text="Please note: Prices and features are listed as per the last update. For the most current information, please contact the owner."
+      />
+    </div>
+  );
 };

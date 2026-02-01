@@ -15,11 +15,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Check, 
-  Upload, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Upload,
   Home,
   IndianRupee,
   MessageCircle,
@@ -90,12 +90,12 @@ const FlatListingForm = () => {
   });
 
   // Location state
-  const [coordinates, setCoordinates] = useState<{lat: number, lng: number} | null>(null);
+  const [coordinates, setCoordinates] = useState<{ lat: number, lng: number } | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState('');
   const [locationMethod, setLocationMethod] = useState<'none' | 'current' | 'search'>('none');
   const [tempSearchQuery, setTempSearchQuery] = useState('');
-  
+
   // Confirmation dialog state
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -127,13 +127,13 @@ const FlatListingForm = () => {
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
+
     // Reset all state to initial values
     setCurrentStep(0);
     setShowConfirmDialog(false);
     setLocationError('');
     setIsLoadingLocation(false);
-    
+
     // This ensures animations trigger properly regardless of navigation path
     return () => {
       // Cleanup
@@ -236,7 +236,7 @@ const FlatListingForm = () => {
       const newImages = Array.from(e.target.files);
       const remainingSlots = 6 - formData.images.length;
       const imagesToAdd = newImages.slice(0, remainingSlots);
-      
+
       setFormData(prev => ({
         ...prev,
         images: [...prev.images, ...imagesToAdd]
@@ -256,7 +256,7 @@ const FlatListingForm = () => {
       const file = e.target.files[0];
       const maxSizeMB = 50; // 50 MB limit
       const fileSizeMB = file.size / (1024 * 1024);
-      
+
       if (fileSizeMB > maxSizeMB) {
         toast({
           variant: "destructive",
@@ -266,7 +266,7 @@ const FlatListingForm = () => {
         e.target.value = '';
         return;
       }
-      
+
       setFormData(prev => ({
         ...prev,
         video: file
@@ -284,7 +284,7 @@ const FlatListingForm = () => {
   const getCurrentLocation = () => {
     setIsLoadingLocation(true);
     setLocationError('');
-    
+
     if (!navigator.geolocation) {
       setLocationError('Geolocation is not supported by your browser');
       setIsLoadingLocation(false);
@@ -296,10 +296,10 @@ const FlatListingForm = () => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         setCoordinates({ lat, lng });
-        
+
         // Set location method to 'current' immediately when we get coordinates
         setLocationMethod('current');
-        
+
         // Reverse geocode to get address
         try {
           const response = await fetch(
@@ -363,7 +363,7 @@ const FlatListingForm = () => {
 
   const handleConfirmSubmit = async () => {
     setIsSubmitting(true);
-    
+
     try {
       // Step 1: Check authentication
       if (!user) {
@@ -463,19 +463,19 @@ const FlatListingForm = () => {
 
     } catch (error) {
       console.error('Submission error:', error);
-      
+
       toast({
         variant: "destructive",
         title: "Submission Failed",
         description: "Something went wrong. Please try again.",
       });
-      
+
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen w-full relative overflow-hidden"
       style={{
         background: 'radial-gradient(circle at center, #0a0a0a 0%, #000000 100%)',
@@ -520,9 +520,9 @@ const FlatListingForm = () => {
 
       {/* Main Content - RESPONSIVE PADDING */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-16 sm:py-20 max-w-4xl relative z-10">
-        
+
         {/* Header - RESPONSIVE */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8 sm:mb-12"
@@ -548,7 +548,7 @@ const FlatListingForm = () => {
         </motion.div>
 
         {/* Progress Bar - RESPONSIVE */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           className="mb-8 sm:mb-12"
@@ -560,11 +560,10 @@ const FlatListingForm = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mb-1 sm:mb-2 transition-all duration-300 ${
-                    index <= currentStep
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mb-1 sm:mb-2 transition-all duration-300 ${index <= currentStep
                       ? 'bg-green-500 text-white shadow-lg shadow-green-500/50'
                       : 'bg-white/10 text-white/50'
-                  }`}
+                    }`}
                 >
                   {index < currentStep ? (
                     <Check className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -572,9 +571,8 @@ const FlatListingForm = () => {
                     <step.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   )}
                 </motion.div>
-                <span className={`hidden sm:block text-xs text-center ${
-                  index <= currentStep ? 'text-white' : 'text-white/50'
-                }`}>
+                <span className={`hidden sm:block text-xs text-center ${index <= currentStep ? 'text-white' : 'text-white/50'
+                  }`}>
                   {step.title}
                 </span>
               </div>
@@ -648,6 +646,8 @@ const FlatListingForm = () => {
                     <span className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-white/60 text-base sm:text-lg font-semibold">₹</span>
                     <Input
                       type="number"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       placeholder="e.g. 15000"
                       value={formData.rent}
                       onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
@@ -705,6 +705,8 @@ const FlatListingForm = () => {
                     </label>
                     <Input
                       type="number"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       placeholder="e.g. 2"
                       value={formData.currentFlatmates}
                       onChange={(e) => setFormData({ ...formData, currentFlatmates: e.target.value })}
@@ -743,11 +745,10 @@ const FlatListingForm = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => setFormData({ ...formData, brokerage: option })}
-                          className={`py-3 sm:py-4 px-3 sm:px-4 rounded-lg sm:rounded-xl font-medium text-xs sm:text-sm md:text-base transition-all ${
-                            formData.brokerage === option
+                          className={`py-3 sm:py-4 px-3 sm:px-4 rounded-lg sm:rounded-xl font-medium text-xs sm:text-sm md:text-base transition-all ${formData.brokerage === option
                               ? 'bg-green-500 text-white shadow-lg shadow-green-500/50'
                               : 'bg-white/5 text-white/70 hover:bg-white/10'
-                          }`}
+                            }`}
                         >
                           {option === 'zero-brokerage' ? 'Zero Brokerage' : 'Brokerage Applicable'}
                         </motion.button>
@@ -764,6 +765,8 @@ const FlatListingForm = () => {
                     </label>
                     <Input
                       type="number"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       placeholder="e.g. 2"
                       value={formData.bhk}
                       onChange={(e) => setFormData({ ...formData, bhk: e.target.value })}
@@ -795,16 +798,14 @@ const FlatListingForm = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleAmenityToggle(amenity.id)}
-                        className={`relative p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 ${
-                          isSelected
+                        className={`relative p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 ${isSelected
                             ? `${amenity.color.bg} border-2 ${amenity.color.text.replace('text-', 'border-')}`
                             : 'bg-white/5 border-2 border-white/10 hover:bg-white/10'
-                        }`}
+                          }`}
                       >
                         <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
-                          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center ${
-                            isSelected ? amenity.color.bg : 'bg-white/10'
-                          }`}>
+                          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center ${isSelected ? amenity.color.bg : 'bg-white/10'
+                            }`}>
                             <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${isSelected ? amenity.color.text : 'text-white/60'}`} />
                           </div>
                           <span className={`text-xs sm:text-sm font-medium leading-tight ${isSelected ? 'text-white' : 'text-white/70'}`}>
@@ -854,7 +855,7 @@ const FlatListingForm = () => {
                         id="image-upload"
                         disabled={formData.images.length >= 6}
                       />
-                      
+
                       {formData.images.length === 0 ? (
                         <label htmlFor="image-upload" className="cursor-pointer">
                           <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 mx-auto mb-3 sm:mb-4" />
@@ -886,7 +887,7 @@ const FlatListingForm = () => {
                               </div>
                             ))}
                           </div>
-                          
+
                           {/* Upload More Button */}
                           {formData.images.length < 6 && (
                             <label htmlFor="image-upload" className="cursor-pointer inline-block">
@@ -898,7 +899,7 @@ const FlatListingForm = () => {
                               </div>
                             </label>
                           )}
-                          
+
                           {formData.images.length >= 6 && (
                             <p className="text-yellow-400 text-xs sm:text-sm">Maximum 6 images reached</p>
                           )}
@@ -916,7 +917,7 @@ const FlatListingForm = () => {
                       <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                       Property Location
                     </label>
-                    
+
                     {/* Fixed height container */}
                     <div className="min-h-[180px] sm:min-h-[200px] transition-all duration-300 ease-out">
                       {/* Current Location Button */}
@@ -930,7 +931,7 @@ const FlatListingForm = () => {
                           <Navigation className={`w-4 h-4 sm:w-5 sm:h-5 mr-2 ${isLoadingLocation ? 'animate-spin' : ''}`} />
                           {isLoadingLocation ? 'Getting Your Location...' : 'Use Current Location'}
                         </Button>
-                        
+
                         {/* Success Message */}
                         <AnimatePresence mode="wait">
                           {locationMethod === 'current' && formData.location && (
@@ -971,7 +972,7 @@ const FlatListingForm = () => {
                       {/* Divider */}
                       <AnimatePresence mode="wait">
                         {locationMethod !== 'current' && (
-                          <motion.div 
+                          <motion.div
                             key="divider"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -989,7 +990,7 @@ const FlatListingForm = () => {
                       {/* Google Places Autocomplete - STACK ON MOBILE */}
                       <AnimatePresence mode="wait">
                         {locationMethod !== 'current' && (
-                          <motion.div 
+                          <motion.div
                             key="search-input"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -1003,9 +1004,9 @@ const FlatListingForm = () => {
                                 onPlaceSelected={(place) => {
                                   if (place && place.formatted_address) {
                                     setTempSearchQuery(place.formatted_address);
-                                    setFormData(prev => ({ 
-                                      ...prev, 
-                                      location: place.formatted_address 
+                                    setFormData(prev => ({
+                                      ...prev,
+                                      location: place.formatted_address
                                     }));
                                     if (place.geometry && place.geometry.location) {
                                       setCoordinates({
@@ -1082,7 +1083,7 @@ const FlatListingForm = () => {
                           </motion.div>
                         )}
                       </AnimatePresence>
-                      
+
                       <p className="text-white/40 text-xs sm:text-sm mt-2 sm:mt-3">
                         💡 Use current location for accuracy or search for your property address
                       </p>
@@ -1104,7 +1105,7 @@ const FlatListingForm = () => {
                         id="video-upload"
                         disabled={formData.video !== null}
                       />
-                      
+
                       {!formData.video ? (
                         <label htmlFor="video-upload" className="cursor-pointer">
                           <Video className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 mx-auto mb-3 sm:mb-4" />
@@ -1134,7 +1135,7 @@ const FlatListingForm = () => {
                               <X className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
                           </div>
-                          
+
                           <p className="text-green-400 text-xs sm:text-sm font-medium break-all px-2">
                             {formData.video.name}
                           </p>
@@ -1210,7 +1211,7 @@ const FlatListingForm = () => {
               exit={{ opacity: 0, y: 20 }}
               className="fixed bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-50 px-4 max-w-[90vw] sm:max-w-none"
             >
-              <div 
+              <div
                 className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-2xl"
                 style={{
                   background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%)',
@@ -1221,27 +1222,27 @@ const FlatListingForm = () => {
                 }}
               >
                 {/* Spinning Loader */}
-                <svg 
-                  className="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-white flex-shrink-0" 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  fill="none" 
+                <svg
+                  className="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-white flex-shrink-0"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
                   viewBox="0 0 24 24"
                 >
-                  <circle 
+                  <circle
                     className="opacity-25"
-                    cx="12" 
-                    cy="12" 
-                    r="10" 
-                    stroke="currentColor" 
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
                     strokeWidth="4"
                   />
-                  <path 
-                    className="opacity-75" 
-                    fill="currentColor" 
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                
+
                 {/* Loading Text */}
                 <div className="flex flex-col">
                   <p className="text-white font-bold text-sm sm:text-base md:text-lg">Submitting Your Flat...</p>
@@ -1255,16 +1256,16 @@ const FlatListingForm = () => {
       </div>
 
       {/* Confirmation Dialog - RESPONSIVE */}
-      <AlertDialog 
-        open={showConfirmDialog} 
+      <AlertDialog
+        open={showConfirmDialog}
         onOpenChange={setShowConfirmDialog}
       >
-        <AlertDialogContent 
+        <AlertDialogContent
           key={showConfirmDialog ? 'dialog-open' : 'dialog-closed'}
           className="bg-gradient-to-br from-gray-900 to-gray-800 border-white/20 text-white max-w-[90vw] sm:max-w-md mx-auto animate-in fade-in-0 zoom-in-95 duration-300 ease-out"
         >
           <AlertDialogHeader>
-            <motion.div 
+            <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3, type: "spring", bounce: 0.3 }}
@@ -1285,7 +1286,7 @@ const FlatListingForm = () => {
             <AlertDialogCancel className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white m-0 text-sm sm:text-base py-2 sm:py-3">
               Keep Editing
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleConfirmSubmit}
               disabled={isSubmitting}
               className="bg-gradient-to-r from-green-500 to-emerald-400 text-white hover:shadow-lg hover:shadow-green-500/50 m-0 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base py-2 sm:py-3"

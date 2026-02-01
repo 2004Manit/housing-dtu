@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { 
-  Check, 
-  Home, 
-  IndianRupee, 
-  MessageCircle, 
-  ShieldCheck, 
+import {
+  Check,
+  Home,
+  IndianRupee,
+  MessageCircle,
+  ShieldCheck,
   UtensilsCrossed,
   MapPin,
   Image as ImageIcon,
@@ -21,7 +21,7 @@ const PropertyListingSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showContent, setShowContent] = useState(false);
-  
+
   // Get form data from navigation state
   const formData = location.state?.formData;
   const coordinates = location.state?.coordinates;
@@ -32,7 +32,7 @@ const PropertyListingSuccess = () => {
       navigate('/list-property');
       return;
     }
-    
+
     // Show content after animation delay
     setTimeout(() => setShowContent(true), 800);
   }, [formData, navigate]);
@@ -67,14 +67,14 @@ const PropertyListingSuccess = () => {
       'geyser': 'Geyser',
       'separate-almirah': 'Separate Almirah',
       'mattress': 'Mattress',
-      'balcony-some': 'Balcony (Some Rooms)',
-      'balcony-all': 'Balcony (All Rooms)',
+      'balcony-some': 'Balcony (in rooms)',
+      'balcony-all': 'Common Balcony',
     };
     return ids.map(id => amenityMap[id] || id);
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen w-full relative overflow-hidden"
       style={{
         background: 'radial-gradient(circle at center, #0a0a0a 0%, #000000 100%)',
@@ -119,9 +119,9 @@ const PropertyListingSuccess = () => {
 
       {/* Main Content - RESPONSIVE PADDING */}
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-16 sm:py-20 max-w-5xl relative z-10">
-        
+
         {/* Success Animation - RESPONSIVE */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", duration: 0.8 }}
@@ -146,7 +146,7 @@ const PropertyListingSuccess = () => {
             >
               <Check className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-green-400" strokeWidth={3} />
             </motion.div>
-            
+
             {/* Ripple Effect */}
             <motion.div
               className="absolute inset-0 rounded-full border-2 border-green-400"
@@ -163,7 +163,7 @@ const PropertyListingSuccess = () => {
           </motion.div>
 
           {/* Title - RESPONSIVE */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
@@ -171,7 +171,7 @@ const PropertyListingSuccess = () => {
           >
             Property Request Submitted Successfully! 🎉
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
@@ -196,7 +196,7 @@ const PropertyListingSuccess = () => {
             </div>
 
             {/* Property Details Card - RESPONSIVE PADDING */}
-            <div 
+            <div
               className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6"
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
@@ -268,8 +268,8 @@ const PropertyListingSuccess = () => {
                     <div>
                       <p className="text-white/50 text-xs sm:text-sm mb-1">Security Deposit</p>
                       <p className="text-white font-medium text-sm sm:text-base capitalize">
-                        {formData.securityDeposit === 'one-time' ? 'One Time' : 
-                         formData.securityDeposit === 'monthly' ? 'Monthly' : 'Not Applicable'}
+                        {formData.securityDeposit === 'one-time' ? 'One Time' :
+                          formData.securityDeposit === 'monthly' ? 'Monthly' : 'Not Applicable'}
                       </p>
                     </div>
                     <div>
@@ -292,7 +292,7 @@ const PropertyListingSuccess = () => {
                 </div>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {getFacilityLabels(formData.selectedFacilities).map((facility, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-white/10 text-white/90 text-xs sm:text-sm border border-white/20"
                     >
@@ -312,7 +312,7 @@ const PropertyListingSuccess = () => {
                 </div>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {getAmenityLabels(formData.selectedAmenities).map((amenity, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-white/10 text-white/90 text-xs sm:text-sm border border-white/20"
                     >
@@ -335,7 +335,7 @@ const PropertyListingSuccess = () => {
                     <p className="text-white/50 text-xs sm:text-sm mb-2 sm:mb-3">Images ({formData.images.length})</p>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
                       {formData.images.slice(0, 6).map((image, index) => (
-                        <div 
+                        <div
                           key={index}
                           className="aspect-square rounded-lg overflow-hidden bg-white/5 border border-white/20"
                         >
