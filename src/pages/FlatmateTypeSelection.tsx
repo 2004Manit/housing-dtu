@@ -74,8 +74,8 @@ const FlatmateTypeSelection = () => {
                 </div>
 
                 {/* Floating Particles */}
-                <div className="absolute inset-0 pointer-events-none">
-                    {[...Array(10)].map((_, i) => (
+                <div className="hidden sm:block absolute inset-0 pointer-events-none">
+                    {[...Array(6)].map((_, i) => (
                         <motion.div
                             key={i}
                             className="absolute w-1 h-1 bg-slate-400/20 rounded-full"
@@ -101,68 +101,64 @@ const FlatmateTypeSelection = () => {
                     <div className="max-w-5xl w-full">
 
                         {/* Options Container - Centered and Compact */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6 max-w-4xl mx-auto px-2 sm:px-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-5 max-w-3xl mx-auto px-2 sm:px-4">
 
                             {/* Option 1: I Have a Flat */}
                             <motion.div
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.2 }}
+                                transition={{ duration: 0.4, delay: 0.1 }}
                                 onClick={handleOptionOne}
                                 className="group relative cursor-pointer"
                             >
                                 <div
-                                    className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-5 sm:p-6 md:p-7 shadow-2xl transition-all duration-500 border border-slate-700/50 hover:border-purple-500/50 hover:scale-[1.03] hover:shadow-purple-500/20"
+                                    className="relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-3 sm:p-4 md:p-5 shadow-xl transition-all duration-300 border border-slate-700/50 hover:border-purple-500/50 hover:scale-[1.01] hover:shadow-purple-500/20"
                                     style={{
-                                        boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(148,163,184,0.05)',
+                                        boxShadow: '0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(148,163,184,0.03)',
                                     }}
                                 >
                                     {/* Shine Effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 group-hover:animate-shimmer" />
+                                    <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                     {/* Gradient Border on Hover */}
-                                    <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ padding: '1px' }}>
-                                        <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl sm:rounded-2xl"></div>
+                                    <div className="hidden sm:block absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ padding: '1px' }}>
+                                        <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg sm:rounded-xl"></div>
                                     </div>
 
                                     <div className="relative z-10">
                                         {/* Icon */}
-                                        <motion.div
-                                            whileHover={{ rotate: [0, -5, 5, -5, 0] }}
-                                            transition={{ duration: 0.5 }}
-                                            className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30 mb-4 sm:mb-5 transition-transform duration-500 group-hover:scale-110"
-                                        >
-                                            <Home className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                                        </motion.div>
+                                        <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 shadow-md shadow-purple-500/20 mb-2 sm:mb-3">
+                                            <Home className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                                        </div>
 
                                         {/* Title */}
-                                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 sm:mb-3">
+                                        <h2 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 sm:mb-2">
                                             I live in a Flat
                                         </h2>
 
                                         {/* Description */}
-                                        <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
+                                        <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-2 sm:mb-3">
                                             Looking for flatmates to fill rooms
                                         </p>
 
                                         {/* Action Text */}
-                                        <div className="flex items-center gap-2 text-purple-400 font-medium text-xs sm:text-sm group-hover:gap-3 transition-all duration-300">
-                                            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                                        <div className="flex items-center gap-1.5 text-purple-400 font-medium text-xs transition-all duration-200">
+                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                             <span>List your flat & find flatmates</span>
                                         </div>
 
                                         {/* Features */}
-                                        <div className="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-700/50 space-y-2">
-                                            <div className="flex items-center gap-2 text-slate-400 text-xs sm:text-sm">
-                                                <div className="w-1 h-1 rounded-full bg-purple-400"></div>
+                                        <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-700/50 space-y-1.5">
+                                            <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                                                <div className="w-1 h-1 rounded-full bg-purple-400 flex-shrink-0"></div>
                                                 <span>Post your listing in seconds</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-slate-400 text-xs sm:text-sm">
-                                                <div className="w-1 h-1 rounded-full bg-purple-400"></div>
+                                            <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                                                <div className="w-1 h-1 rounded-full bg-purple-400 flex-shrink-0"></div>
                                                 <span>Connect with verified flatmates</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-slate-400 text-xs sm:text-sm">
-                                                <div className="w-1 h-1 rounded-full bg-purple-400"></div>
+                                            <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                                                <div className="w-1 h-1 rounded-full bg-purple-400 flex-shrink-0"></div>
                                                 <span>100% free, always</span>
                                             </div>
                                         </div>
@@ -172,49 +168,45 @@ const FlatmateTypeSelection = () => {
 
                             {/* Option 2: I Need Flatmates */}
                             <motion.div
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.3 }}
+                                transition={{ duration: 0.4, delay: 0.15 }}
                                 onClick={() => handleNavigation('/flatmate-requirement-queries')}
                                 className="group relative cursor-pointer"
                             >
                                 <div
-                                    className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-5 sm:p-6 md:p-7 shadow-2xl transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/50 hover:scale-[1.03] hover:shadow-cyan-500/20"
+                                    className="relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-3 sm:p-4 md:p-5 shadow-xl transition-all duration-300 border border-slate-700/50 hover:border-cyan-500/50 hover:scale-[1.01] hover:shadow-cyan-500/20"
                                     style={{
-                                        boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(148,163,184,0.05)',
+                                        boxShadow: '0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(148,163,184,0.03)',
                                     }}
                                 >
                                     {/* Shine Effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 group-hover:animate-shimmer" />
+                                    <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                     {/* Gradient Border on Hover */}
-                                    <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ padding: '1px' }}>
-                                        <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl sm:rounded-2xl"></div>
+                                    <div className="hidden sm:block absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ padding: '1px' }}>
+                                        <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg sm:rounded-xl"></div>
                                     </div>
 
                                     <div className="relative z-10">
                                         {/* Icon */}
-                                        <motion.div
-                                            whileHover={{ rotate: [0, 5, -5, 5, 0] }}
-                                            transition={{ duration: 0.5 }}
-                                            className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 shadow-lg shadow-cyan-500/30 mb-4 sm:mb-5 transition-transform duration-500 group-hover:scale-110"
-                                        >
-                                            <Users className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                                        </motion.div>
+                                        <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 shadow-md shadow-cyan-500/20 mb-2 sm:mb-3">
+                                            <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                                        </div>
 
                                         {/* Title */}
-                                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2 sm:mb-3">
+                                        <h2 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">
                                             I don't have a flat yet
                                         </h2>
 
                                         {/* Description */}
-                                        <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
+                                        <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-2 sm:mb-3">
                                             Looking for people to move in together
                                         </p>
 
                                         {/* Action Text */}
-                                        <div className="flex items-center gap-2 text-cyan-400 font-medium text-xs sm:text-sm mb-3">
-                                            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                                        <div className="flex items-center gap-1.5 text-cyan-400 font-medium text-xs transition-all duration-200">
+                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                             <span>Create profile & connect with others</span>
                                         </div>
 
@@ -225,17 +217,17 @@ const FlatmateTypeSelection = () => {
                                         </div> */}
 
                                         {/* Features */}
-                                        <div className="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-700/50 space-y-2">
-                                            <div className="flex items-center gap-2 text-slate-400 text-xs sm:text-sm">
-                                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                                        <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-700/50 space-y-1.5">
+                                            <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                                                <div className="w-1 h-1 rounded-full bg-cyan-400 flex-shrink-0"></div>
                                                 <span>Create your flatmate profile</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-slate-400 text-xs sm:text-sm">
-                                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                                            <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                                                <div className="w-1 h-1 rounded-full bg-cyan-400 flex-shrink-0"></div>
                                                 <span>Match with compatible people</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-slate-400 text-xs sm:text-sm">
-                                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                                            <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                                                <div className="w-1 h-1 rounded-full bg-cyan-400 flex-shrink-0"></div>
                                                 <span>Find your perfect living group</span>
                                             </div>
                                         </div>
