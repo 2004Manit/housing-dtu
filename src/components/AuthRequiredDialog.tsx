@@ -22,7 +22,7 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent 
+      <DialogContent
         className="max-w-[95vw] sm:max-w-[85vw] md:max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto overflow-x-hidden p-0 border-0 bg-transparent shadow-none [&>button]:hidden"
       >
         <div className="relative max-w-full">
@@ -48,7 +48,7 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
             <div className="relative px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 border-b border-slate-200 dark:border-slate-700">
               {/* Decorative elements */}
               <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gradient-to-br from-blue-400/10 to-indigo-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-              
+
               <AnimatePresence>
                 {open && (
                   <motion.div
@@ -90,7 +90,7 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
                       transition={{ duration: 0.5, delay: 0.3 }}
                       className="text-lg sm:text-xl md:text-2xl font-bold text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2"
                     >
-                      Just a Quick Step Before Listing
+                      Just a Quick Step Before Moving Ahead!
                     </motion.h2>
 
                     <motion.p
@@ -99,7 +99,7 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
                       transition={{ duration: 0.5, delay: 0.4 }}
                       className="text-center text-slate-600 dark:text-slate-400 text-xs sm:text-sm max-w-md mx-auto mb-3 px-2"
                     >
-                      Create an account or sign in to list your property. It only takes a few seconds!
+                      Create an account or sign in to continue. It only takes a few seconds!
                     </motion.p>
 
                     {/* Feature badges */}

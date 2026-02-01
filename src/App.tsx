@@ -13,6 +13,8 @@ import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import ListProperty from "./pages/ListProperty";
 import FindFlatmate from "./pages/FindFlatmate";
+import FlatmateTypeSelection from "./pages/FlatmateTypeSelection";
+import FlatmateRequirementQueries from "./pages/FlatmateRequirementQueries";
 import PropertyTypeSelection from "./pages/PropertyTypeSelection";
 import PGListingForm from "./pages/PGListingForm";
 import FlatListingForm from "./pages/FlatListingForm";
@@ -54,6 +56,8 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/list-property" element={<ListProperty />} />
               <Route path="/find-flatmate" element={<FindFlatmate />} />
+              <Route path="/flatmate-type-selection" element={<FlatmateTypeSelection />} />
+              <Route path="/flatmate-requirement-queries" element={<FlatmateRequirementQueries />} />
               <Route path="/property-type-selection" element={<PropertyTypeSelection />} />
               <Route path="/pg-listing-form" element={<PGListingForm />} />
               <Route path="/flat-listing-form" element={<FlatListingForm />} />
