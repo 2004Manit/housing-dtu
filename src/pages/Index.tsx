@@ -891,7 +891,7 @@ const Index = () => {
 
             }}
           >
-            <source src="/best-video-new.mp4" type="video/mp4" />
+            <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770218824/best-video-new_djmplw.mp4" type="video/mp4" />
           </video>
 
 
@@ -984,7 +984,7 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <source src="/uploaded-video1.mp4" type="video/mp4" />
+                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770192266/uploaded-video1_mninnu.mp4" type="video/mp4" />
                     </video>
 
                     <div className="device-shine"></div>
@@ -1184,7 +1184,7 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <source src="/uploaded-video2.mp4" type="video/mp4" />
+                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770192261/uploaded-video2_ebkbac.mp4" type="video/mp4" />
                     </video>
 
                     <div className="device-shine"></div>
