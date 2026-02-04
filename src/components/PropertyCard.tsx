@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { optimizeSupabaseImage } from "@/lib/cloudinary";
 import {
   Wifi, Battery, MoveUp, Droplets, Microwave, Refrigerator,
   UserCheck, Users, CircleDot, WashingMachine, Camera, Home,
@@ -145,7 +146,9 @@ const PropertyCard = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
 
+  // Optimize images through Cloudinary
   const imageArray = images.length > 0 ? images : [image];
+  const optimizedImages = imageArray.map(img => optimizeSupabaseImage(img));
 
   const handlePrevImage = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -214,12 +217,13 @@ const PropertyCard = ({
               className="flex h-full transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
             >
-              {imageArray.map((img, index) => (
+              {optimizedImages.map((img, index) => (
                 <img
                   key={index}
                   src={img}
                   alt={`${title} - ${index + 1}`}
                   className="w-full h-full object-cover object-center flex-shrink-0"
+                  loading="lazy"
                   style={{ minWidth: '100%' }}
                 />
               ))}
@@ -413,12 +417,13 @@ const PropertyCard = ({
               className="flex h-full transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
             >
-              {imageArray.map((img, index) => (
+              {optimizedImages.map((img, index) => (
                 <img
                   key={index}
                   src={img}
                   alt={`${title} - ${index + 1}`}
                   className="w-full h-full object-cover object-center flex-shrink-0"
+                  loading="lazy"
                   style={{ minWidth: '100%' }}
                 />
               ))}

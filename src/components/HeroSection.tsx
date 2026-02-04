@@ -1,45 +1,51 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import bgd10 from '@/assets/hero/bgd10.jpg';
+// ORIGINAL IMPORTS (kept for reference/rollback)
+// import bgd10 from '@/assets/hero/bgd10.jpg';
+// import card1 from '@/assets/hero/card1.png';
+// import card2 from '@/assets/hero/card2.png';
+// import card3 from '@/assets/hero/card3.png';
+// import card4 from '@/assets/hero/card4.png';
 
-// Import your 4 images
-import card1 from '@/assets/hero/card1.png';
-import card2 from '@/assets/hero/card2.png';
-import card3 from '@/assets/hero/card3.png';
-import card4 from '@/assets/hero/card4.png';
+// CLOUDINARY OPTIMIZED IMAGES
+const bgd10 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239397/bgd10_bjksz1.jpg';
+const card1 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239434/card1_hxkk2c.png';
+const card2 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239408/card2_nco73f.png';
+const card3 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239396/card3_srrjfu.png';
+const card4 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239414/card4_eqldbd.png';
 
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Your 4 animated images with responsive sizes
   const carouselImages = [
-    { 
-      id: 1, 
-      image: card1, 
-      alt: "Property showcase 1", 
-      height: "h-[180px] sm:h-[240px] md:h-[305px]", 
+    {
+      id: 1,
+      image: card1,
+      alt: "Property showcase 1",
+      height: "h-[180px] sm:h-[240px] md:h-[305px]",
       width: "max-w-[280px] sm:max-w-[360px] md:max-w-[460px]"
     },
-    { 
-      id: 2, 
-      image: card2, 
-      alt: "Property showcase 2", 
-      height: "h-[220px] sm:h-[300px] md:h-[380px]", 
-      width: "max-w-[200px] sm:max-w-[280px] md:max-w-sm" 
+    {
+      id: 2,
+      image: card2,
+      alt: "Property showcase 2",
+      height: "h-[220px] sm:h-[300px] md:h-[380px]",
+      width: "max-w-[200px] sm:max-w-[280px] md:max-w-sm"
     },
-    { 
-      id: 3, 
-      image: card3, 
-      alt: "Property showcase 3", 
-      height: "h-[190px] sm:h-[250px] md:h-[320px]", 
-      width: "max-w-[300px] sm:max-w-[400px] md:max-w-[500px]" 
+    {
+      id: 3,
+      image: card3,
+      alt: "Property showcase 3",
+      height: "h-[190px] sm:h-[250px] md:h-[320px]",
+      width: "max-w-[300px] sm:max-w-[400px] md:max-w-[500px]"
     },
-    { 
-      id: 4, 
-      image: card4, 
-      alt: "Property showcase 4", 
-      height: "h-[170px] sm:h-[230px] md:h-[290px]", 
-      width: "max-w-[240px] sm:max-w-[400px] md:max-w-xl" 
+    {
+      id: 4,
+      image: card4,
+      alt: "Property showcase 4",
+      height: "h-[170px] sm:h-[230px] md:h-[290px]",
+      width: "max-w-[240px] sm:max-w-[400px] md:max-w-xl"
     },
   ];
 
@@ -53,7 +59,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section 
+    <section
       className="min-h-screen relative overflow-hidden"
       style={{
         backgroundImage: `url(${bgd10})`,
@@ -64,7 +70,7 @@ const HeroSection = () => {
     >
       <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center min-h-[80vh]">
-          
+
           {/* LEFT COLUMN - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -117,14 +123,14 @@ const HeroSection = () => {
               <AnimatePresence mode="popLayout">
                 {carouselImages.map((card, index) => {
                   const position = (index - currentIndex + carouselImages.length) % carouselImages.length;
-                  
+
                   if (position !== 0) return null;
 
                   return (
                     <motion.div
                       key={card.id}
-                      initial={{ 
-                        y: 100, 
+                      initial={{
+                        y: 100,
                         opacity: 0,
                         scale: 0.8,
                         rotateX: 10,
@@ -153,7 +159,7 @@ const HeroSection = () => {
                         zIndex: carouselImages.length - position,
                       }}
                     >
-                      <div 
+                      <div
                         className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/10"
                         style={{
                           boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)',
@@ -179,11 +185,10 @@ const HeroSection = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
-                      index === currentIndex 
-                        ? 'bg-green-500 w-6 sm:w-8' 
+                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${index === currentIndex
+                        ? 'bg-green-500 w-6 sm:w-8'
                         : 'bg-white/30 hover:bg-white/50'
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -201,14 +206,14 @@ const HeroSection = () => {
             <AnimatePresence mode="popLayout">
               {carouselImages.map((card, index) => {
                 const position = (index - currentIndex + carouselImages.length) % carouselImages.length;
-                
+
                 if (position !== 0) return null;
 
                 return (
                   <motion.div
                     key={card.id}
-                    initial={{ 
-                      y: 100, 
+                    initial={{
+                      y: 100,
                       opacity: 0,
                       scale: 0.8,
                       rotateX: 10,
@@ -237,7 +242,7 @@ const HeroSection = () => {
                       zIndex: carouselImages.length - position,
                     }}
                   >
-                    <div 
+                    <div
                       className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl border-2 border-white/10"
                       style={{
                         boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)',
@@ -263,11 +268,10 @@ const HeroSection = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex 
-                      ? 'bg-green-500 w-8' 
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
+                      ? 'bg-green-500 w-8'
                       : 'bg-white/30 hover:bg-white/50'
-                  }`}
+                    }`}
                 />
               ))}
             </div>
