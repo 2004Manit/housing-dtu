@@ -35,19 +35,19 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
             <X className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
           </button>
 
-          {/* Animated background */}
+          {/* Animated background - Reduced blur on mobile */}
           <div className="absolute inset-0 overflow-hidden rounded-xl sm:rounded-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-purple-500/20 blur-3xl"></div>
-            <div className="absolute top-0 left-0 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-cyan-400/20 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-indigo-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-indigo-500/20 to-purple-500/20 blur-xl md:blur-3xl"></div>
+            <div className="absolute top-0 left-0 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-cyan-400/20 rounded-full blur-xl md:blur-3xl md:animate-pulse"></div>
+            <div className="absolute bottom-0 right-0 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-indigo-400/20 rounded-full blur-xl md:blur-3xl md:animate-pulse" style={{ animationDelay: '1s' }}></div>
           </div>
 
           {/* Content */}
           <div className="relative bg-white dark:bg-slate-900 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
             {/* Header Section */}
             <div className="relative px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 border-b border-slate-200 dark:border-slate-700">
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gradient-to-br from-blue-400/10 to-indigo-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+              {/* Decorative elements - Reduced blur on mobile */}
+              <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gradient-to-br from-blue-400/10 to-indigo-400/10 rounded-full blur-xl md:blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
               <AnimatePresence>
                 {open && (
@@ -64,10 +64,11 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
                         transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 200 }}
                         className="relative"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg sm:rounded-xl blur-lg opacity-50 animate-pulse"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg sm:rounded-xl blur-md md:blur-lg opacity-50 md:animate-pulse"></div>
                         <div className="relative bg-gradient-to-br from-blue-500 to-indigo-600 p-2 sm:p-2.5 rounded-lg sm:rounded-xl shadow-lg">
                           <Lock className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                         </div>
+                        {/* Sparkles - Static on mobile, rotating on desktop */}
                         <motion.div
                           animate={{
                             rotate: [0, 360],
@@ -77,10 +78,14 @@ export const AuthRequiredDialog = ({ open, onOpenChange, onSuccess, pendingRoute
                             repeat: Infinity,
                             ease: "linear"
                           }}
-                          className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1"
+                          className="hidden md:block absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1"
                         >
                           <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-400" />
                         </motion.div>
+                        {/* Static sparkles for mobile */}
+                        <div className="md:hidden absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1">
+                          <Sparkles className="h-3 w-3 sm:h-4 sm:h-4 text-yellow-400" />
+                        </div>
                       </motion.div>
                     </div>
 

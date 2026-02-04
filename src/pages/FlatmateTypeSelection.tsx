@@ -43,10 +43,10 @@ const FlatmateTypeSelection = () => {
                     padding: 0,
                 }}
             >
-                {/* Subtle Animated Background Elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {/* Subtle Animated Background Elements - Hidden on mobile for performance */}
+                <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
                     <motion.div
-                        className="absolute top-20 left-10 w-96 h-96 bg-slate-700/10 rounded-full blur-3xl"
+                        className="absolute top-20 left-10 w-96 h-96 bg-slate-700/10 rounded-full blur-xl"
                         animate={{
                             x: [0, 20, 0],
                             y: [0, 30, 0],
@@ -59,7 +59,7 @@ const FlatmateTypeSelection = () => {
                         }}
                     />
                     <motion.div
-                        className="absolute bottom-20 right-10 w-[32rem] h-[32rem] bg-slate-600/10 rounded-full blur-3xl"
+                        className="absolute bottom-20 right-10 w-[32rem] h-[32rem] bg-slate-600/10 rounded-full blur-xl"
                         animate={{
                             x: [0, -25, 0],
                             y: [0, -20, 0],
@@ -112,7 +112,7 @@ const FlatmateTypeSelection = () => {
                                 className="group relative cursor-pointer"
                             >
                                 <div
-                                    className="relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-3 sm:p-4 md:p-5 shadow-xl transition-all duration-300 border border-slate-700/50 hover:border-purple-500/50 hover:scale-[1.01] hover:shadow-purple-500/20"
+                                    className="relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm md:backdrop-blur-xl p-3 sm:p-4 md:p-5 shadow-xl transition-all duration-300 border border-slate-700/50 hover:border-purple-500/50 hover:scale-[1.01] hover:shadow-purple-500/20"
                                     style={{
                                         boxShadow: '0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(148,163,184,0.03)',
                                     }}
@@ -175,7 +175,7 @@ const FlatmateTypeSelection = () => {
                                 className="group relative cursor-pointer"
                             >
                                 <div
-                                    className="relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl p-3 sm:p-4 md:p-5 shadow-xl transition-all duration-300 border border-slate-700/50 hover:border-cyan-500/50 hover:scale-[1.01] hover:shadow-cyan-500/20"
+                                    className="relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm md:backdrop-blur-xl p-3 sm:p-4 md:p-5 shadow-xl transition-all duration-300 border border-slate-700/50 hover:border-cyan-500/50 hover:scale-[1.01] hover:shadow-cyan-500/20"
                                     style={{
                                         boxShadow: '0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(148,163,184,0.03)',
                                     }}
