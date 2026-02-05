@@ -9,10 +9,10 @@ import { useState, useEffect } from 'react';
 
 // CLOUDINARY OPTIMIZED IMAGES
 const bgd10 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239397/bgd10_bjksz1.jpg';
-const card1 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239434/card1_hxkk2c.png';
-const card2 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239408/card2_nco73f.png';
-const card3 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239396/card3_srrjfu.png';
-const card4 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239414/card4_eqldbd.png';
+const card1 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239434/card1_hxkk2c.png';
+const card2 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239408/card2_nco73f.png';
+const card3 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239396/card3_srrjfu.png';
+const card4 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239414/card4_eqldbd.png';
 
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -186,8 +186,8 @@ const HeroSection = () => {
                     key={index}
                     onClick={() => setCurrentIndex(index)}
                     className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${index === currentIndex
-                        ? 'bg-green-500 w-6 sm:w-8'
-                        : 'bg-white/30 hover:bg-white/50'
+                      ? 'bg-green-500 w-6 sm:w-8'
+                      : 'bg-white/30 hover:bg-white/50'
                       }`}
                   />
                 ))}
@@ -269,8 +269,8 @@ const HeroSection = () => {
                   key={index}
                   onClick={() => setCurrentIndex(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
-                      ? 'bg-green-500 w-8'
-                      : 'bg-white/30 hover:bg-white/50'
+                    ? 'bg-green-500 w-8'
+                    : 'bg-white/30 hover:bg-white/50'
                     }`}
                 />
               ))}
