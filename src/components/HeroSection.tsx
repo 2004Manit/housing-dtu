@@ -17,6 +17,21 @@ const card4 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Preload the first carousel image for instant display
+  useEffect(() => {
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = card1;
+    preloadLink.fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
+
+    // Cleanup on unmount
+    return () => {
+      document.head.removeChild(preloadLink);
+    };
+  }, []);
+
   // Your 4 animated images with responsive sizes
   const carouselImages = [
     {
