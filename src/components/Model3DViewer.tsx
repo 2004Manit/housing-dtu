@@ -1,8 +1,9 @@
 import React, { Suspense, useRef, useState, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, PerspectiveCamera, Environment } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
+import { useInView } from 'react-intersection-observer';
 
 interface Model3DViewerProps {
   modelPath: string;
@@ -14,9 +15,9 @@ interface Model3DViewerProps {
 }
 
 // Model component that loads the GLB
-function Model({ 
-  modelPath, 
-  scale = 1, 
+function Model({
+  modelPath,
+  scale = 1,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   onLoad
@@ -37,7 +38,7 @@ function Model({
       const center = box.getCenter(new THREE.Vector3());
       modelRef.current.position.sub(center);
       modelRef.current.position.add(new THREE.Vector3(...position));
-      
+
       // Notify that model is loaded
       onLoad?.();
     }
@@ -103,17 +104,17 @@ function ErrorFallback({ error }: { error: string }) {
           animate={{ scale: 1 }}
           className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 flex items-center justify-center"
         >
-          <svg 
-            className="w-8 h-8 text-red-400" 
-            fill="none" 
-            viewBox="0 0 24 24" 
+          <svg
+            className="w-8 h-8 text-red-400"
+            fill="none"
+            viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
             />
           </svg>
         </motion.div>
@@ -128,9 +129,9 @@ function ErrorFallback({ error }: { error: string }) {
   );
 }
 
-const Model3DViewer = ({ 
-  modelPath, 
-  scale = 1, 
+const Model3DViewer = ({
+  modelPath,
+  scale = 1,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   autoRotate = false,
@@ -139,6 +140,12 @@ const Model3DViewer = ({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
+
+  // Viewport detection - pause when not visible
+  const { ref: viewportRef, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: false // Keep observing
+  });
 
   // Simulate loading progress (you can replace this with actual loading progress if available)
   useEffect(() => {
@@ -162,59 +169,61 @@ const Model3DViewer = ({
   };
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
+    <div ref={viewportRef} className={`relative w-full h-full ${className}`}>
       {/* Loading Overlay */}
       {isLoading && <LoadingSpinner progress={loadProgress} />}
-      
+
       {/* Error Overlay */}
       {error && <ErrorFallback error={error} />}
-      
+
       {/* Canvas */}
       {!error && (
         <Canvas
           shadows
-          dpr={[1, 2]} // Limit device pixel ratio for better performance
-          performance={{ min: 0.5 }} // Allow performance throttling on slower devices
-          gl={{ 
-            antialias: true, 
+          dpr={[1, 1.5]} // Lower DPR for better desktop performance
+          performance={{ min: 0.5 }} // Allow performance throttling
+          frameloop={inView ? "always" : "never"} // Pause when not in view
+          gl={{
+            antialias: true,
             alpha: true,
             preserveDrawingBuffer: true,
-            powerPreference: "high-performance" // Request high-performance GPU
+            powerPreference: "default" // Let browser choose best GPU
           }}
           onCreated={({ gl }) => {
             gl.setClearColor('#000000', 0);
+            gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
           }}
         >
           <PerspectiveCamera makeDefault position={[0, 2, 4]} fov={50} />
-          
+
           {/* Lighting */}
           <ambientLight intensity={0.5} />
-          <directionalLight 
-            position={[10, 10, 5]} 
-            intensity={1} 
+          <directionalLight
+            position={[10, 10, 5]}
+            intensity={1}
             castShadow
             shadow-mapSize-width={1024} // Reduced from 2048 for better performance
             shadow-mapSize-height={1024}
           />
           <directionalLight position={[-10, -10, -5]} intensity={0.3} />
           <pointLight position={[0, 5, 5]} intensity={0.5} />
-          
+
           {/* Environment for realistic reflections */}
           <Environment preset="city" /> {/* Changed to city for better performance than studio */}
-          
+
           {/* Model with Error Boundary */}
           <Suspense fallback={null}>
             <ErrorBoundary onError={setError}>
-              <Model 
-                modelPath={modelPath} 
-                scale={scale} 
+              <Model
+                modelPath={modelPath}
+                scale={scale}
                 position={position}
                 rotation={rotation}
                 onLoad={handleModelLoad}
               />
             </ErrorBoundary>
           </Suspense>
-          
+
           {/* Controls - Click and drag to rotate */}
           <OrbitControls
             enableZoom={true}
@@ -224,7 +233,7 @@ const Model3DViewer = ({
             autoRotate={autoRotate}
             autoRotateSpeed={2}
             enableDamping
-            dampingFactor={0.05}
+            dampingFactor={0.15}
             makeDefault
           />
         </Canvas>
@@ -244,15 +253,9 @@ const Model3DViewer = ({
         </motion.div>
       )}
 
-      {/* Decorative Glowing Border */}
+      {/* Decorative Glowing Border - Static for better performance */}
       <div className="absolute inset-0 rounded-lg pointer-events-none">
-        <motion.div
-          className="absolute inset-0 rounded-lg border border-cyan-500/20"
-          animate={{
-            borderColor: ["rgba(6, 182, 212, 0.2)", "rgba(6, 182, 212, 0.4)", "rgba(6, 182, 212, 0.2)"],
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
+        <div className="absolute inset-0 rounded-lg border border-cyan-500/30" />
       </div>
     </div>
   );
