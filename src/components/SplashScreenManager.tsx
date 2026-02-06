@@ -6,47 +6,38 @@ interface SplashScreenManagerProps {
 }
 
 export default function SplashScreenManager({ children }: SplashScreenManagerProps) {
-  const [showSplash, setShowSplash] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [splashComplete, setSplashComplete] = useState(false);
+  // Check sessionStorage synchronously during initialization to prevent content flash
+  const [showSplash, setShowSplash] = useState(() => {
+    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+    // Show splash if user hasn't seen it yet in this session
+    return !hasSeenSplash;
+  });
 
   useEffect(() => {
     // Check if splash has been shown in this tab session
     const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
 
     if (!hasSeenSplash) {
-      // First time in this tab - show splash
+      // First time in this tab - show splash as overlay
       setShowSplash(true);
-      setSplashComplete(false);
-      
+
       // After 4.5 seconds (splash animation duration), hide splash and mark as seen
       const timer = setTimeout(() => {
         setShowSplash(false);
-        setSplashComplete(true);
         sessionStorage.setItem("hasSeenSplash", "true");
       }, 4500);
 
-      setIsChecking(false);
-
       return () => clearTimeout(timer);
-    } else {
-      // Already seen in this tab - don't show splash
-      setShowSplash(false);
-      setSplashComplete(true);
-      setIsChecking(false);
     }
+    // Already seen in this tab - don't show splash (content still renders immediately)
   }, []);
-
-  // Don't render anything while checking (prevents flash)
-  if (isChecking) {
-    return null;
-  }
 
   return (
     <>
+      {/* Content renders immediately - critical for LCP and SEO */}
+      {children}
+      {/* Splash displays as fixed overlay on top when shown */}
       {showSplash && <SplashScreen />}
-      {/* Only render children after splash is complete */}
-      {splashComplete && children}
     </>
   );
 }

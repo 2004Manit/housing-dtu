@@ -762,7 +762,20 @@ const Index = () => {
       }
     };
 
-    playHeroVideo();
+    // Check if this is first visit (splash is showing)
+    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+
+    if (!hasSeenSplash) {
+      // First visit - delay video autoplay until after splash completes (4.5s)
+      const timer = setTimeout(() => {
+        playHeroVideo();
+      }, 4600); // Slight delay after splash fade (4.5s splash + 100ms buffer)
+
+      return () => clearTimeout(timer);
+    } else {
+      // Returning visit - autoplay immediately
+      playHeroVideo();
+    }
   }, []);
 
   // Force play videos #2 and #3 when they enter viewport (mobile autoplay fix)
