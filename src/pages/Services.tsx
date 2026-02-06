@@ -16,79 +16,8 @@ import {
   Phone,
   TrendingUp
 } from "lucide-react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
 import headerBg from "@/assets/property img.png";
 import Model3DViewer from "@/components/Model3DViewer";
-
-// Animation wrapper component for scroll-triggered animations
-const AnimateOnScroll = ({ children, delay = 0, direction = "up" }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -100px 0px" }); // More aggressive trigger for lazy-loaded pages
-
-  const directions = {
-    up: { y: 40, x: 0 }, // Reduced from 60
-    down: { y: -40, x: 0 }, // Reduced from -60
-    left: { x: 40, y: 0 }, // Reduced from 60
-    right: { x: -40, y: 0 }, // Reduced from -60
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, ...directions[direction] }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...directions[direction] }}
-      transition={{ duration: 0.4, delay, ease: "easeOut" }} // Reduced from 0.6
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-// Stagger children animation
-const StaggerContainer = ({ children, staggerDelay = 0.1, className = "" }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -100px 0px" }); // More aggressive trigger
-
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        visible: {
-          transition: {
-            staggerChildren: staggerDelay,
-          },
-        },
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-const StaggerItem = ({ children, direction = "up" }) => {
-  const directions = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
-  };
-
-  return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, ...directions[direction] },
-        visible: { opacity: 1, x: 0, y: 0 },
-      }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      {children}
-    </motion.div>
-  );
-};
 
 const Services = () => {
   const services = [
@@ -452,23 +381,9 @@ const Services = () => {
           </div>
         </div>
 
-        {/* Floating Orbs */}
-        <motion.div
-          className="absolute top-5 -left-5 sm:top-10 sm:left-10 md:top-20 md:left-20 w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full bg-cyan-500/10 blur-3xl"
-          animate={{
-            y: [0, 30, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ duration: 6, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-5 -right-5 sm:bottom-10 sm:right-10 md:bottom-20 md:right-20 w-28 h-28 sm:w-40 sm:h-40 md:w-64 md:h-64 rounded-full bg-blue-500/10 blur-3xl"
-          animate={{
-            y: [0, -30, 0],
-            scale: [1.1, 1, 1.1]
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
+        {/* Floating Orbs - CSS animation */}
+        <div className="absolute top-5 -left-5 sm:top-10 sm:left-10 md:top-20 md:left-20 w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full bg-cyan-500/10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-5 -right-5 sm:bottom-10 sm:right-10 md:bottom-20 md:right-20 w-28 h-28 sm:w-40 sm:h-40 md:w-64 md:h-64 rounded-full bg-blue-500/10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
