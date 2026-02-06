@@ -892,6 +892,7 @@ const Index = () => {
             playsInline
             preload="auto"
             disablePictureInPicture
+            poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770218824/best-video-new_djmplw.jpg"
             onLoadedData={() => {
               // Force play when video data is loaded (mobile fix)
               heroVideoRef.current?.play().catch(() => { });
@@ -904,6 +905,7 @@ const Index = () => {
 
             }}
           >
+            <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,w_1280/v1770218824/best-video-new_djmplw.mp4" type="video/mp4" media="(max-width: 768px)" />
             <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770218824/best-video-new_djmplw.mp4" type="video/mp4" />
           </video>
 
@@ -989,6 +991,7 @@ const Index = () => {
                       playsInline
                       preload="metadata"
                       disablePictureInPicture
+                      poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770192266/uploaded-video1_mninnu.jpg"
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
                         video1Ref.current?.play().catch(() => { });
@@ -997,6 +1000,7 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
+                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,w_1280/v1770192266/uploaded-video1_mninnu.mp4" type="video/mp4" media="(max-width: 768px)" />
                       <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770192266/uploaded-video1_mninnu.mp4" type="video/mp4" />
                     </video>
 
@@ -1189,6 +1193,7 @@ const Index = () => {
                       playsInline
                       preload="metadata"
                       disablePictureInPicture
+                      poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770192261/uploaded-video2_ebkbac.jpg"
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
                         video2Ref.current?.play().catch(() => { });
@@ -1197,6 +1202,7 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
+                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,w_1280/v1770192261/uploaded-video2_ebkbac.mp4" type="video/mp4" media="(max-width: 768px)" />
                       <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770192261/uploaded-video2_ebkbac.mp4" type="video/mp4" />
                     </video>
 
