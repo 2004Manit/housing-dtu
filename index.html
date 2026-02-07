@@ -1,71 +1,76 @@
 <!doctype html>
 <html lang="en">
-  <head>
 
-    <link rel="preload" href="/model.glb" as="fetch" crossorigin="anonymous">
+<head>
 
-    <!-- Preconnect to Cloudinary CDN for faster image delivery -->
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+  <link rel="preload" href="/model.glb" as="fetch" crossorigin="anonymous">
 
-    <!-- Preload critical LCP images -->
-    <!-- Hero background - mobile -->
-    <link 
-      rel="preload" 
-      as="image" 
-      href="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg"
-      media="(max-width: 768px)"
-      fetchpriority="high"
-    >
-    <!-- Hero background - desktop -->
-    <link 
-      rel="preload" 
-      as="image" 
-      href="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1920,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg"
-      media="(min-width: 769px)"
-      fetchpriority="high"
-    >
-    
-    <!-- Preload first carousel card - mobile -->
-    <link 
-      rel="preload" 
-      as="image" 
-      href="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png"
-      media="(max-width: 768px)"
-    >
+  <!-- Preconnect to Cloudinary CDN for faster image delivery -->
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+  <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Favicon Links (Multiple formats for all devices) -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    
-    <!-- Page Title -->
-    <title>Housing DTU</title>
-    
-    <!-- Meta Description -->
-    <meta name="description" content="Find PGs, flats, and roommates near DTU campus. Built by students, for students. Zero commission, verified listings." />
-    <meta name="author" content="Housing DTU" />
+  <!-- Preconnect to Google Fonts for faster font delivery -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Open Graph Meta Tags (for social media sharing) -->
-    <meta property="og:title" content="Housing DTU - Student Housing Near DTU" />
-    <meta property="og:description" content="Find PGs, flats, and roommates near DTU campus. Built by students, for students." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/apple-touch-icon.png" />
+  <!-- Google Font - Sora (used in hero section) with font-display:swap for non-blocking load -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&display=swap" rel="stylesheet">
 
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Housing DTU" />
-    <meta name="twitter:description" content="Find PGs, flats, and roommates near DTU campus" />
-    <meta name="twitter:image" content="/apple-touch-icon.png" />
+  <!-- Preload hero video poster for faster LCP -->
+  <link rel="preload" as="image"
+    href="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770218824/best-video-new_djmplw.jpg"
+    fetchpriority="high">
 
-  </head>
+  <!-- Preload critical LCP images -->
+  <!-- Hero background - mobile -->
+  <link rel="preload" as="image"
+    href="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg"
+    media="(max-width: 768px)" fetchpriority="high">
+  <!-- Hero background - desktop -->
+  <link rel="preload" as="image"
+    href="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1920,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg"
+    media="(min-width: 769px)" fetchpriority="high">
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Preload first carousel card - mobile -->
+  <link rel="preload" as="image"
+    href="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png"
+    media="(max-width: 768px)">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon Links (Multiple formats for all devices) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!-- Page Title -->
+  <title>Housing DTU</title>
+
+  <!-- Meta Description -->
+  <meta name="description"
+    content="Find PGs, flats, and roommates near DTU campus. Built by students, for students. Zero commission, verified listings." />
+  <meta name="author" content="Housing DTU" />
+
+  <!-- Open Graph Meta Tags (for social media sharing) -->
+  <meta property="og:title" content="Housing DTU - Student Housing Near DTU" />
+  <meta property="og:description"
+    content="Find PGs, flats, and roommates near DTU campus. Built by students, for students." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/apple-touch-icon.png" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Housing DTU" />
+  <meta name="twitter:description" content="Find PGs, flats, and roommates near DTU campus" />
+  <meta name="twitter:image" content="/apple-touch-icon.png" />
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

@@ -155,7 +155,7 @@ const animationStyles = `
 
 // HeroCTAMoon styles
 const heroCTAStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@700;800&display=swap');
+  /* Font moved to index.html for better performance */
 
   .hero-cta-moon {
     position: relative;
@@ -890,7 +890,7 @@ const Index = () => {
             loop
             muted
             playsInline
-            preload="auto"
+            preload="none"
             disablePictureInPicture
             poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770218824/best-video-new_djmplw.jpg"
             onLoadedData={() => {
