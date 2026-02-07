@@ -7,6 +7,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { AuthProvider } from '@/contexts/AuthContext';
 import SplashScreenManager from "@/components/SplashScreenManager";
 import LoadingFallback from "@/components/LoadingFallback";
+import * as Sentry from "@sentry/react";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -41,42 +42,44 @@ const ScrollToTop = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <SplashScreenManager>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <ScrollToTop />
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/properties" element={<Properties />} />
-                <Route path="/property-detail/:id" element={<PropertyDetail />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/list-property" element={<ListProperty />} />
-                <Route path="/find-flatmate" element={<FindFlatmate />} />
-                <Route path="/flatmate-type-selection" element={<FlatmateTypeSelection />} />
-                <Route path="/flatmate-requirement-queries" element={<FlatmateRequirementQueries />} />
-                <Route path="/property-type-selection" element={<PropertyTypeSelection />} />
-                <Route path="/pg-listing-form" element={<PGListingForm />} />
-                <Route path="/flat-listing-form" element={<FlatListingForm />} />
-                <Route path="/property-listing-success" element={<PropertyListingSuccess />} />
-                <Route path="/flat-listing-success" element={<FlatListingSuccess />} />
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </SplashScreenManager>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <Sentry.ErrorBoundary fallback={<div className="min-h-screen flex items-center justify-center bg-background text-white"><p>Something went wrong. Please refresh the page.</p></div>}>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <SplashScreenManager>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <ScrollToTop />
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/properties" element={<Properties />} />
+                  <Route path="/property-detail/:id" element={<PropertyDetail />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/list-property" element={<ListProperty />} />
+                  <Route path="/find-flatmate" element={<FindFlatmate />} />
+                  <Route path="/flatmate-type-selection" element={<FlatmateTypeSelection />} />
+                  <Route path="/flatmate-requirement-queries" element={<FlatmateRequirementQueries />} />
+                  <Route path="/property-type-selection" element={<PropertyTypeSelection />} />
+                  <Route path="/pg-listing-form" element={<PGListingForm />} />
+                  <Route path="/flat-listing-form" element={<FlatListingForm />} />
+                  <Route path="/property-listing-success" element={<PropertyListingSuccess />} />
+                  <Route path="/flat-listing-success" element={<FlatListingSuccess />} />
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </SplashScreenManager>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </Sentry.ErrorBoundary>
 );
 
 export default App;

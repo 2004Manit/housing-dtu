@@ -1,7 +1,25 @@
+import * as Sentry from "@sentry/react";
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
 import "./index.css";
+
+// Initialize Sentry for error tracking (must be first!)
+Sentry.init({
+  dsn: "https://7b68fd33bd995ca9733011ca66650e2e@o4510846711627776.ingest.us.sentry.io/4510846715428864",
+
+  // Only send errors in production
+  enabled: import.meta.env.PROD,
+
+  // Set environment for filtering in Sentry dashboard
+  environment: import.meta.env.PROD ? "production" : "development",
+
+  // Capture 10% of transactions for performance monitoring (adjust as needed)
+  tracesSampleRate: 0.1,
+
+  // Don't send PII (personally identifiable information) by default
+  sendDefaultPii: false,
+});
 
 // Set dark theme permanently
 document.documentElement.classList.add("dark");
