@@ -33,11 +33,12 @@ const HeroSection = () => {
   }, []);
 
   // Your 4 animated images with responsive sizes
+  // OPTIMIZED: Using q_auto:eco for aggressive compression on mobile, reduced mobile sizes
   const carouselImages = [
     {
       id: 1,
       image: card1,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png 1200w",
+      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto:eco,w_300,c_limit/v1770239434/card1_hxkk2c.png 300w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_600,c_limit/v1770239434/card1_hxkk2c.png 600w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_900,c_limit/v1770239434/card1_hxkk2c.png 900w",
       alt: "Property showcase 1",
       height: "h-[180px] sm:h-[240px] md:h-[305px]",
       width: "max-w-[280px] sm:max-w-[360px] md:max-w-[460px]"
@@ -45,7 +46,7 @@ const HeroSection = () => {
     {
       id: 2,
       image: card2,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239408/card2_nco73f.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239408/card2_nco73f.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239408/card2_nco73f.png 1200w",
+      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto:eco,w_300,c_limit/v1770239408/card2_nco73f.png 300w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_600,c_limit/v1770239408/card2_nco73f.png 600w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_900,c_limit/v1770239408/card2_nco73f.png 900w",
       alt: "Property showcase 2",
       height: "h-[220px] sm:h-[300px] md:h-[380px]",
       width: "max-w-[200px] sm:max-w-[280px] md:max-w-sm"
@@ -53,7 +54,7 @@ const HeroSection = () => {
     {
       id: 3,
       image: card3,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239396/card3_srrjfu.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239396/card3_srrjfu.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239396/card3_srrjfu.png 1200w",
+      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto:eco,w_300,c_limit/v1770239396/card3_srrjfu.png 300w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_600,c_limit/v1770239396/card3_srrjfu.png 600w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_900,c_limit/v1770239396/card3_srrjfu.png 900w",
       alt: "Property showcase 3",
       height: "h-[190px] sm:h-[250px] md:h-[320px]",
       width: "max-w-[300px] sm:max-w-[400px] md:max-w-[500px]"
@@ -61,7 +62,7 @@ const HeroSection = () => {
     {
       id: 4,
       image: card4,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239414/card4_eqldbd.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239414/card4_eqldbd.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239414/card4_eqldbd.png 1200w",
+      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto:eco,w_300,c_limit/v1770239414/card4_eqldbd.png 300w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_600,c_limit/v1770239414/card4_eqldbd.png 600w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_900,c_limit/v1770239414/card4_eqldbd.png 900w",
       alt: "Property showcase 4",
       height: "h-[170px] sm:h-[230px] md:h-[290px]",
       width: "max-w-[240px] sm:max-w-[400px] md:max-w-xl"
