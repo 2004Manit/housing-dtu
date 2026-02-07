@@ -21,12 +21,6 @@ Sentry.init({
   sendDefaultPii: false,
 });
 
-// TEMPORARY TEST: Send a test message to confirm Sentry is connected
-// Remove this after confirming it works!
-if (import.meta.env.PROD) {
-  Sentry.captureMessage("✅ Sentry connection test - Housing DTU is connected!", "info");
-}
-
 // Set dark theme permanently
 document.documentElement.classList.add("dark");
 
