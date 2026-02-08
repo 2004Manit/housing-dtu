@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Clock } from 'lucide-react';
+import { MapPin, Navigation, Clock, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface NearbyLocation {
@@ -35,19 +35,20 @@ const mapOptions = {
   streetViewControl: true,
   rotateControl: false,
   fullscreenControl: true,
-  
+
 };
 
-export const GoogleMapSection = ({ 
-  coordinates, 
-  address, 
-  city, 
-  state, 
+export const GoogleMapSection = ({
+  coordinates,
+  address,
+  city,
+  state,
   propertyName,
-  nearbyLocations 
+  nearbyLocations
 }: GoogleMapSectionProps) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<boolean>(false);
 
   const onLoad = useCallback((map: google.maps.Map) => {
     setMap(map);
@@ -56,6 +57,13 @@ export const GoogleMapSection = ({
 
   const onUnmount = useCallback(() => {
     setMap(null);
+  }, []);
+
+  // Handle Maps API loading errors gracefully
+  const onLoadError = useCallback((error: Error) => {
+    console.error('Google Maps failed to load:', error.message);
+    setLoadError(true);
+    setIsLoading(false);
   }, []);
 
   // Function to open Google Maps directions
@@ -87,7 +95,7 @@ export const GoogleMapSection = ({
             <span className="text-sm sm:text-base lg:text-lg">{fullAddress}</span>
           </div>
         </div>
-        
+
         <div className="flex gap-3">
           {/* <Button
             onClick={handleOpenInMaps}
@@ -111,7 +119,7 @@ export const GoogleMapSection = ({
         whileHover={{ scale: 1.02 }}
         className="relative rounded-2xl overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-300 aspect-video"
       >
-        {isLoading && (
+        {isLoading && !loadError && (
           <div className="absolute inset-0 bg-card/80 backdrop-blur-sm flex items-center justify-center z-10">
             <div className="text-center space-y-3">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
@@ -119,36 +127,60 @@ export const GoogleMapSection = ({
             </div>
           </div>
         )}
-        
-        <LoadScript 
-          googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
-          loadingElement={<div className="w-full h-full bg-card animate-pulse aspect-video" />}
-        >
-          <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            center={coordinates}
-            zoom={15}
-            options={mapOptions}
-            onLoad={onLoad}
-            onUnmount={onUnmount}
+
+        {/* Fallback UI when Maps fails to load */}
+        {loadError ? (
+          <div className="w-full h-full min-h-[300px] bg-card/50 backdrop-blur-sm flex items-center justify-center rounded-2xl border border-border">
+            <div className="text-center space-y-4 p-6 max-w-md">
+              <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
+                <MapPin className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Map Unavailable</h3>
+                <p className="text-sm text-muted-foreground mb-1">{propertyName}</p>
+                <p className="text-xs text-muted-foreground">{fullAddress}</p>
+              </div>
+              <Button
+                onClick={handleGetDirections}
+                className="bg-primary hover:bg-primary/90 gap-2"
+              >
+                <Navigation className="w-4 h-4" />
+                Open in Google Maps
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <LoadScript
+            googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+            loadingElement={<div className="w-full h-full bg-card animate-pulse aspect-video" />}
+            onError={onLoadError}
           >
-            <Marker 
-              position={coordinates}
-              title={propertyName}
-            />
-          </GoogleMap>
-        </LoadScript>
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              center={coordinates}
+              zoom={15}
+              options={mapOptions}
+              onLoad={onLoad}
+              onUnmount={onUnmount}
+            >
+              <Marker
+                position={coordinates}
+                title={propertyName}
+              />
+            </GoogleMap>
+          </LoadScript>
+        )}
       </motion.div>
 
       {/* Nearby Information */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
-          { 
-            time: `${nearbyLocations?.timeToEntranceGate || '2'} min`, 
+          {
+            time: `${nearbyLocations?.timeToEntranceGate || '2'} min`,
             label: 'to DTU Entrance gate'
           },
-          { 
-            time: `${nearbyLocations?.timeToMainMarket || '10'} min`, 
+          {
+            time: `${nearbyLocations?.timeToMainMarket || '10'} min`,
             label: 'to main market'
           },
         ].map((item, idx) => (
