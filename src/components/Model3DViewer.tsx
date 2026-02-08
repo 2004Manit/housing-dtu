@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, PerspectiveCamera, Environment } from '@react-three/drei';
+import { OrbitControls, useGLTF, PerspectiveCamera } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
 import { useInView } from 'react-intersection-observer';
@@ -208,8 +208,9 @@ const Model3DViewer = ({
           <directionalLight position={[-10, -10, -5]} intensity={0.3} />
           <pointLight position={[0, 5, 5]} intensity={0.5} />
 
-          {/* Environment for realistic reflections */}
-          <Environment preset="city" /> {/* Changed to city for better performance than studio */}
+          {/* Environment lighting using local lights - no external CDN dependency */}
+          <hemisphereLight intensity={0.5} groundColor="#1a1a2e" color="#ffffff" />
+          <spotLight position={[5, 10, 7.5]} angle={0.3} penumbra={1} intensity={0.8} castShadow />
 
           {/* Model with Error Boundary */}
           <Suspense fallback={null}>
