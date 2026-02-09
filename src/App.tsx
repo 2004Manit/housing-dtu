@@ -3,31 +3,33 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { AuthProvider } from '@/contexts/AuthContext';
 import SplashScreenManager from "@/components/SplashScreenManager";
 import LoadingFallback from "@/components/LoadingFallback";
 import * as Sentry from "@sentry/react";
+import { lazyWithRetry } from "@/utils/lazyWithRetry";
 
-// Lazy load all page components for better performance
-const Index = lazy(() => import("./pages/Index"));
-const Properties = lazy(() => import("./pages/Properties"));
-const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
-const Services = lazy(() => import("./pages/Services"));
-const Contact = lazy(() => import("./pages/Contact"));
-const Auth = lazy(() => import("./pages/Auth"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const About = lazy(() => import("./pages/About"));
-const ListProperty = lazy(() => import("./pages/ListProperty"));
-const FindFlatmate = lazy(() => import("./pages/FindFlatmate"));
-const FlatmateTypeSelection = lazy(() => import("./pages/FlatmateTypeSelection"));
-const FlatmateRequirementQueries = lazy(() => import("./pages/FlatmateRequirementQueries"));
-const PropertyTypeSelection = lazy(() => import("./pages/PropertyTypeSelection"));
-const PGListingForm = lazy(() => import("./pages/PGListingForm"));
-const FlatListingForm = lazy(() => import("./pages/FlatListingForm"));
-const PropertyListingSuccess = lazy(() => import("./pages/PropertyListingSuccess"));
-const FlatListingSuccess = lazy(() => import("./pages/FlatListingSuccess"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+// Lazy load all page components with automatic retry on network failures
+const Index = lazyWithRetry(() => import("./pages/Index"));
+const Properties = lazyWithRetry(() => import("./pages/Properties"));
+const PropertyDetail = lazyWithRetry(() => import("./pages/PropertyDetail"));
+const Services = lazyWithRetry(() => import("./pages/Services"));
+const Contact = lazyWithRetry(() => import("./pages/Contact"));
+const Auth = lazyWithRetry(() => import("./pages/Auth"));
+const NotFound = lazyWithRetry(() => import("./pages/NotFound"));
+const About = lazyWithRetry(() => import("./pages/About"));
+const ListProperty = lazyWithRetry(() => import("./pages/ListProperty"));
+const FindFlatmate = lazyWithRetry(() => import("./pages/FindFlatmate"));
+const FlatmateTypeSelection = lazyWithRetry(() => import("./pages/FlatmateTypeSelection"));
+const FlatmateRequirementQueries = lazyWithRetry(() => import("./pages/FlatmateRequirementQueries"));
+const PropertyTypeSelection = lazyWithRetry(() => import("./pages/PropertyTypeSelection"));
+const PGListingForm = lazyWithRetry(() => import("./pages/PGListingForm"));
+const FlatListingForm = lazyWithRetry(() => import("./pages/FlatListingForm"));
+const PropertyListingSuccess = lazyWithRetry(() => import("./pages/PropertyListingSuccess"));
+const FlatListingSuccess = lazyWithRetry(() => import("./pages/FlatListingSuccess"));
+const AdminDashboard = lazyWithRetry(() => import("./pages/AdminDashboard"));
+
 
 const queryClient = new QueryClient();
 
