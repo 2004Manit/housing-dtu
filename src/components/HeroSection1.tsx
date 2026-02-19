@@ -358,7 +358,7 @@ export default function HeroSection() {
             housing DTU.
           </h1>
           <p className="hero-desc">
-            From bold identities to immersive digital experiences — we partner with visionary teams to build work that leaves a mark long after the scroll.
+            Need a Pg, a flat or a Flatmate? We've got you covered with our verified listings and seamless experience.
           </p>
           <div className="hero-cta-group">
             <Link to="/properties" className="hero-btn-primary" style={{ textDecoration: 'none' }}>Browse Properties →</Link>
