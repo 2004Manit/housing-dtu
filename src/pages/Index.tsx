@@ -17,6 +17,7 @@ import homePageBackground from "@/assets/home page background.avif";
 
 import AnimatedDeviceSection from "@/components/AnimatedDeviceSection";
 import VerifiedAnimationScene from "@/components/VerifiedAnimationScene";
+import HeroSection1 from "@/components/HeroSection1";
 
 // Add animation styles
 const animationStyles = `
@@ -882,78 +883,10 @@ const Index = () => {
       <Navbar />
 
       {/* Hero Section - FIXED FOR MOBILE */}
-      <section className="relative pt-20 sm:pt-24 md:pt-32 pb-0 overflow-hidden min-h-[70vh] sm:min-h-[80vh] md:min-h-screen flex items-center">
-        <div className="absolute inset-0">
-          <video
-            ref={heroVideoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="none"
-            disablePictureInPicture
-            poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770218824/best-video-new_djmplw.jpg"
-            onLoadedData={() => {
-              // Force play when video data is loaded (mobile fix)
-              heroVideoRef.current?.play().catch(() => { });
-            }}
-            className="w-full h-full object-cover brightness-[1.2]"
-            style={{
-              transform: 'scale(1.02)',
-              transformOrigin: 'center center',
-              WebkitFontSmoothing: 'antialiased',
-
-            }}
-          >
-            <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,w_1280/v1770218824/best-video-new_djmplw.mp4" type="video/mp4" media="(max-width: 768px)" />
-            <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770218824/best-video-new_djmplw.mp4" type="video/mp4" />
-          </video>
-
-
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/15 to-background/50"></div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <div className="max-w-xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5.75xl font-bold mb-7 sm:mb-6 leading-tight">
-                <span className="word-animate">Student</span>
-                <span className="word-animate">Housing,</span>
-                <br />
-                <span className="word-animate"><span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">Simplified</span></span>
-                <span className="word-animate">by</span>
-                {/* <span className="word-animate"></span> */}
-                <span className="word-animate">Housing DTU</span>
-              </h1>
-              {/* <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-7 animate-fade-in-up stagger-1">
-                Your journey to finding the perfect property begins here. Explore our curated listings to find the home that matches your dreams.
-              </p> */}
-              <div className="flex flex-wrap gap-3 sm:gap-4 animate-fade-in-up stagger-2">
-                <Button
-                  variant="hero"
-                  size="sm"
-                  asChild
-                  className="rounded-md hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/50 border-0 text-sm sm:text-base"
-                >
-                  <Link to="/properties">Browse Properties</Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-md hover:scale-105 transition-all duration-300 bg-white/10 hover:bg-white/20 border-white/30 hover:border-white/50 backdrop-blur-sm text-white shadow-lg text-sm sm:text-base"
-                >
-                  <a href="/About">
-                    Learn More
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection1 />
 
       {/* Video + Content Section - FIXED FOR MOBILE */}
-      <section className="relative py-16 sm:py-24 md:py-40 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-40 overflow-hidden" style={{ backgroundColor: '#000000' }}>
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center max-w-6xl mx-auto">
             <div className="flex justify-center items-center order-2 lg:order-1">

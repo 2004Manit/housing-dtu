@@ -9,7 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Dark theme (permanent) */
-    --background: 240 10% 3.9%;
+    --background: 200 40% 10%;
     --foreground: 0 0% 98%;
 
     --card: 240 6% 10%;

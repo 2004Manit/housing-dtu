@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { 
+import {
   Home, Github, Linkedin, Twitter, Instagram, Mail, Shield, ArrowRight,
   Search, Users, MessageCircle, Quote, Code, Megaphone, User,
-  Building2, BadgeCheck, Sparkles, DollarSign, PhoneCall, 
+  Building2, BadgeCheck, Sparkles, DollarSign, PhoneCall,
   GraduationCap, Clock, HeadphonesIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,25 +13,26 @@ import { PropertyFooter } from "@/components/PropertyFooter";
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-background overflow-hidden"
-    style={{
-      '--primary': '174 62% 47%',  // Teal color
-      '--accent': '174 62% 47%',   // Teal color
-      '--primary-foreground': '0 0% 100%',
-    } as React.CSSProperties }>
+      style={{
+        '--background': '240 10% 3.9%', // Restore original near-black for About page
+        '--primary': '174 62% 47%',  // Teal color
+        '--accent': '174 62% 47%',   // Teal color
+        '--primary-foreground': '0 0% 100%',
+      } as React.CSSProperties}>
       {/* Background gradient elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[100px]" />
       </div>
-      
+
       <Navbar />
-      
+
       <main className="relative z-10">
 
         {/* Hero Section */}
         <HeroSection />
 
-         {/* Story Section */}
+        {/* Story Section */}
         <StorySection />
 
         {/* Offer Section */}
@@ -40,7 +41,7 @@ const AboutPage = () => {
         {/* Founders Section */}
         <FoundersSection />
 
-       {/* Founders Note */}
+        {/* Founders Note */}
         <FoundersNote />
 
         {/* Why Choose Us */}
@@ -48,11 +49,11 @@ const AboutPage = () => {
 
         {/* CTA Section */}
         <CTASection />
-      
 
-        
+
+
       </main>
-      
+
       <PropertyFooter />
     </div>
   );
@@ -77,9 +78,9 @@ const CTASection = () => {
             {/* Decorative gradients */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[100px]" />
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/15 rounded-full blur-[80px]" />
-            
+
             {/* Decorative border glow */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/20 via-transparent to-accent/20 p-[1px]">  
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary/20 via-transparent to-accent/20 p-[1px]">
             </div>
 
             <div className="relative z-10">
@@ -105,15 +106,15 @@ const CTASection = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="default" size="lg" className="group" asChild>
                   <a href="/Properties">
-                  <Search className="w-5 h-5" />
-                  Browse Properties
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    <Search className="w-5 h-5" />
+                    Browse Properties
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </Button>
                 <Button variant="hero-outline" size="lg" asChild>
                   <a href="/List-Property">
-                  <Home className="w-5 h-5" />
-                  List Your Property
+                    <Home className="w-5 h-5" />
+                    List Your Property
                   </a>
                 </Button>
               </div>
@@ -134,7 +135,7 @@ const FoundersNote = () => {
     <section ref={ref} className="py-20 sm:py-28 relative">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/30 to-transparent" />
-      
+
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -160,7 +161,7 @@ const FoundersNote = () => {
             {/* Decorative gradient */}
             <div className="absolute top-0 left-0 w-40 h-40 bg-primary/10 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-[60px] translate-x-1/2 translate-y-1/2" />
-            
+
             <div className="relative z-10">
               {/* Quote Icon */}
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6">
@@ -170,16 +171,16 @@ const FoundersNote = () => {
               {/* Quote Content */}
               <div className="space-y-5 text-muted-foreground leading-relaxed text-base sm:text-lg">
                 <p>
-                 When we first came to DTU, finding a place to stay was one of the most stressful experiences we had. Dealing with brokers who charged exorbitant fees, visiting properties that didn't even exist on-site, and spending weeks just trying to find something decent near campus.
+                  When we first came to DTU, finding a place to stay was one of the most stressful experiences we had. Dealing with brokers who charged exorbitant fees, visiting properties that didn't even exist on-site, and spending weeks just trying to find something decent near campus.
                 </p>
                 <p>
-                  We thought — why isn't there a simple platform where students can directly 
-                  connect with property owners? Where listings are verified, there are no hidden 
+                  We thought — why isn't there a simple platform where students can directly
+                  connect with property owners? Where listings are verified, there are no hidden
                   charges, and you can even find roommates who are fellow DTU students?
                 </p>
                 <p>
-                  That's exactly what Housing DTU is. This isn't just a project for us — it's 
-                  a solution to a problem we personally faced. We want every DTU student to 
+                  That's exactly what Housing DTU is. This isn't just a project for us — it's
+                  a solution to a problem we personally faced. We want every DTU student to
                   have an easier time finding their home away from home.
                 </p>
               </div>
@@ -189,7 +190,7 @@ const FoundersNote = () => {
                 <p className="font-display font-semibold text-foreground text-lg">
                   — The Housing DTU Team
                 </p>
-                
+
               </div>
             </div>
           </motion.div>
@@ -245,7 +246,7 @@ const FoundersSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-           transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-14 sm:mb-16"
         >
           <span className="text-primary font-medium text-sm uppercase tracking-wider">
@@ -273,7 +274,7 @@ const FoundersSection = () => {
             >
               {/* Hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+
               <div className="relative z-10 flex flex-col h-full">
                 {/* Avatar placeholder with icon */}
                 <div className="flex items-center gap-4 mb-5">
@@ -326,7 +327,7 @@ const FoundersSection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-10"
         >
-          
+
         </motion.div>
       </div>
     </section>
@@ -379,7 +380,7 @@ const HeroSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Simplifying student housing search with zero commission. Find verified PGs, flats, 
+          Simplifying student housing search with zero commission. Find verified PGs, flats,
           and roommates near DTU campus — all in one place.
         </motion.p>
 
@@ -466,7 +467,7 @@ const OffersSection = () => {
     <section ref={ref} className="py-20 sm:py-28 relative">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/50 to-transparent" />
-      
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -497,7 +498,7 @@ const OffersSection = () => {
               className="glass rounded-2xl p-6 sm:p-8 relative overflow-hidden"
             >
               {/* Hover gradient - removed */}
-              
+
               <div className="relative z-10">
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-5">
@@ -577,7 +578,7 @@ const StorySection = () => {
                 Our Story
               </span>
             </motion.div>
-            
+
             <motion.h2
               variants={itemVariants}
               className="text-3xl sm:text-4xl font-display font-bold text-foreground"
@@ -588,18 +589,18 @@ const StorySection = () => {
 
             <motion.div variants={itemVariants} className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                As DTU students ourselves, we know the struggle of finding the perfect place 
-                to live. Hours spent visiting each property and shortlisting the best one, dealing with brokers 
+                As DTU students ourselves, we know the struggle of finding the perfect place
+                to live. Hours spent visiting each property and shortlisting the best one, dealing with brokers
                 charging hefty commissions, and never knowing if a place is actually verified.
               </p>
               <p>
-                That's why we built Housing DTU — a zero-commission platform that connects 
-                students directly with property owners. No middlemen, no hidden fees, just 
+                That's why we built Housing DTU — a zero-commission platform that connects
+                students directly with property owners. No middlemen, no hidden fees, just
                 straightforward housing solutions for the DTU community.
               </p>
               <p>
-                Our mission is simple: make finding a PG, flat, or roommate as easy as 
-                ordering food online. Because finding a home shouldn't be the hardest part 
+                Our mission is simple: make finding a PG, flat, or roommate as easy as
+                ordering food online. Because finding a home shouldn't be the hardest part
                 of college life.
               </p>
             </motion.div>

@@ -217,14 +217,14 @@ const Properties = () => {
   }, [properties, searchQuery, selectedTypes, sortBy]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ backgroundColor: '#000000' }}>
       <Navbar />
 
       {/* HERO SECTION */}
       <HeroSection />
 
       {/* Looking for Flatmate/Roommate Section */}
-      <section className="relative py-6 sm:py-8 md:py-10 overflow-hidden bg-background">
+      <section className="relative py-6 sm:py-8 md:py-10 overflow-hidden" style={{ backgroundColor: '#000000' }}>
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <AnimateOnScroll delay={0.01}>
             <div className="max-w-3xl mx-auto">
@@ -281,7 +281,7 @@ const Properties = () => {
       </section>
 
       {/* Search Bar Section */}
-      <section className="relative py-6 sm:py-8 bg-background">
+      <section className="relative py-6 sm:py-8" style={{ backgroundColor: '#000000' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <AnimateOnScroll delay={0.1}>
             <div className="max-w-3xl mx-auto">

@@ -126,13 +126,12 @@ const DetailsDisplay = ({ activeStage }: { activeStage: number }) => (
               duration: 0.4,
               ease: "easeOut",
             }}
-            className={`relative p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${
-              isActive
+            className={`relative p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${isActive
                 ? "border-primary bg-primary/15 shadow-xl shadow-primary/30"
                 : isVisible
-                ? "border-primary/30 bg-secondary/60 shadow-md"
-                : "border-border/30 bg-secondary/20"
-            }`}
+                  ? "border-primary/30 bg-secondary/60 shadow-md"
+                  : "border-border/30 bg-secondary/20"
+              }`}
           >
             <div className="flex items-start gap-3 sm:gap-4">
               <motion.div
@@ -144,30 +143,27 @@ const DetailsDisplay = ({ activeStage }: { activeStage: number }) => (
                   repeat: isActive ? Infinity : 0,
                   repeatDelay: 2,
                 }}
-                className={`p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl shadow-lg transition-all duration-300 ${
-                  isActive
+                className={`p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl shadow-lg transition-all duration-300 ${isActive
                     ? "bg-primary text-primary-foreground shadow-primary/50"
                     : isVisible
-                    ? "bg-primary/20 text-primary"
-                    : "bg-secondary text-muted-foreground"
-                }`}
+                      ? "bg-primary/20 text-primary"
+                      : "bg-secondary text-muted-foreground"
+                  }`}
               >
                 <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.div>
               <div className="flex-1">
                 <h3
-                  className={`text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2 transition-colors duration-300 ${
-                    isActive ? "text-foreground" : "text-muted-foreground"
-                  }`}
+                  className={`text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2 transition-colors duration-300 ${isActive ? "text-foreground" : "text-muted-foreground"
+                    }`}
                 >
                   {feature.title}
                 </h3>
                 <p
-                  className={`text-xs sm:text-sm leading-relaxed transition-opacity duration-300 ${
-                    isActive
+                  className={`text-xs sm:text-sm leading-relaxed transition-opacity duration-300 ${isActive
                       ? "text-foreground/90"
                       : "text-muted-foreground"
-                  }`}
+                    }`}
                 >
                   {feature.description}
                 </p>
@@ -217,14 +213,14 @@ const StageSection = ({
   });
 
   const opacity = useTransform(
-    scrollYProgress, 
-    [0, 0.3, 0.7, 1], 
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
     [0.3, 1, 1, 0.3],
     { clamp: true }
   );
   const scale = useTransform(
-    scrollYProgress, 
-    [0, 0.3, 0.7, 1], 
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
     [0.95, 1, 1, 0.95],
     { clamp: true }
   );
@@ -232,16 +228,16 @@ const StageSection = ({
   return (
     <div
       ref={sectionRef}
-      className="min-h-screen flex items-center py-12 sm:py-16 md:py-20 px-4 bg-background"
+      className="min-h-screen flex items-center py-12 sm:py-16 md:py-20 px-4 bg-[#0a0a0a]"
     >
       <div className="container mx-auto w-full max-w-7xl">
         <motion.div
           style={{ opacity, scale, willChange: 'transform, opacity', transform: 'translateZ(0)' }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 100, 
+          transition={{
+            type: "spring",
+            stiffness: 100,
             damping: 30,
-            restDelta: 0.001 
+            restDelta: 0.001
           }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center"
         >
@@ -284,7 +280,7 @@ const AnimatedDeviceSection = () => {
   ];
 
   return (
-    <section className="relative bg-background">
+    <section className="relative bg-[#0a0a0a]">
       {stages.map((stage) => (
         <StageSection
           key={stage.id}
