@@ -924,7 +924,7 @@ const Index = () => {
                       playsInline
                       preload="metadata"
                       disablePictureInPicture
-                      poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770192266/uploaded-video1_mninnu.jpg"
+                      poster="https://ik.imagekit.io/bpt0bijnm/tr:f-jpg,q-auto/uploaded-video1.mp4"
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
                         video1Ref.current?.play().catch(() => { });
@@ -933,8 +933,8 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,w_1280/v1770192266/uploaded-video1_mninnu.mp4" type="video/mp4" media="(max-width: 768px)" />
-                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770192266/uploaded-video1_mninnu.mp4" type="video/mp4" />
+                      <source src="https://ik.imagekit.io/bpt0bijnm/tr:w-1280/uploaded-video1.mp4" type="video/mp4" media="(max-width: 768px)" />
+                      <source src="https://ik.imagekit.io/bpt0bijnm/uploaded-video1.mp4" type="video/mp4" />
                     </video>
 
                     <div className="device-shine"></div>
@@ -1126,7 +1126,7 @@ const Index = () => {
                       playsInline
                       preload="metadata"
                       disablePictureInPicture
-                      poster="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,so_0/v1770192261/uploaded-video2_ebkbac.jpg"
+                      poster="https://ik.imagekit.io/bpt0bijnm/tr:f-jpg,q-auto/uploaded-video2.mp4"
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
                         video2Ref.current?.play().catch(() => { });
@@ -1135,8 +1135,8 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto,w_1280/v1770192261/uploaded-video2_ebkbac.mp4" type="video/mp4" media="(max-width: 768px)" />
-                      <source src="https://res.cloudinary.com/dgof5pmgh/video/upload/f_auto,q_auto/v1770192261/uploaded-video2_ebkbac.mp4" type="video/mp4" />
+                      <source src="https://ik.imagekit.io/bpt0bijnm/tr:w-1280/uploaded-video2.mp4" type="video/mp4" media="(max-width: 768px)" />
+                      <source src="https://ik.imagekit.io/bpt0bijnm/uploaded-video2.mp4" type="video/mp4" />
                     </video>
 
                     <div className="device-shine"></div>

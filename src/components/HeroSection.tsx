@@ -1,18 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-// ORIGINAL IMPORTS (kept for reference/rollback)
-// import bgd10 from '@/assets/hero/bgd10.jpg';
-// import card1 from '@/assets/hero/card1.png';
-// import card2 from '@/assets/hero/card2.png';
-// import card3 from '@/assets/hero/card3.png';
-// import card4 from '@/assets/hero/card4.png';
 
-// CLOUDINARY OPTIMIZED IMAGES
-const bgd10 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto/v1770239397/bgd10_bjksz1.jpg';
-const card1 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239434/card1_hxkk2c.png';
-const card2 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239408/card2_nco73f.png';
-const card3 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239396/card3_srrjfu.png';
-const card4 = 'https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,c_limit,w_1200/v1770239414/card4_eqldbd.png';
+// IMAGEKIT BASE PATHS (Just the file names)
+const bgd10 = 'bgd10.jpg';
+const card1 = 'card1.png';
+const card2 = 'card2.png';
+const card3 = 'card3.png';
+const card4 = 'card4.png';
 
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,46 +16,45 @@ const HeroSection = () => {
     const preloadLink = document.createElement('link');
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
-    preloadLink.href = card1;
+    preloadLink.href = `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card1}`;
     preloadLink.fetchPriority = 'high';
     document.head.appendChild(preloadLink);
 
-    // Cleanup on unmount
     return () => {
       document.head.removeChild(preloadLink);
     };
   }, []);
 
-  // Your 4 animated images with responsive sizes
+  // Your 4 animated images with responsive ImageKit srcSets
   const carouselImages = [
     {
       id: 1,
-      image: card1,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239434/card1_hxkk2c.png 1200w",
+      image: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card1}`,
+      srcSet: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-400/${card1} 400w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/${card1} 800w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card1} 1200w`,
       alt: "Property showcase 1",
       height: "h-[180px] sm:h-[240px] md:h-[305px]",
       width: "max-w-[280px] sm:max-w-[360px] md:max-w-[460px]"
     },
     {
       id: 2,
-      image: card2,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239408/card2_nco73f.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239408/card2_nco73f.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239408/card2_nco73f.png 1200w",
+      image: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card2}`,
+      srcSet: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-400/${card2} 400w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/${card2} 800w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card2} 1200w`,
       alt: "Property showcase 2",
       height: "h-[220px] sm:h-[300px] md:h-[380px]",
       width: "max-w-[200px] sm:max-w-[280px] md:max-w-sm"
     },
     {
       id: 3,
-      image: card3,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239396/card3_srrjfu.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239396/card3_srrjfu.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239396/card3_srrjfu.png 1200w",
+      image: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card3}`,
+      srcSet: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-400/${card3} 400w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/${card3} 800w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card3} 1200w`,
       alt: "Property showcase 3",
       height: "h-[190px] sm:h-[250px] md:h-[320px]",
       width: "max-w-[300px] sm:max-w-[400px] md:max-w-[500px]"
     },
     {
       id: 4,
-      image: card4,
-      srcSet: "https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_400,c_limit,dpr_auto/v1770239414/card4_eqldbd.png 400w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239414/card4_eqldbd.png 800w, https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1200,c_limit,dpr_auto/v1770239414/card4_eqldbd.png 1200w",
+      image: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card4}`,
+      srcSet: `https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-400/${card4} 400w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/${card4} 800w, https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1200/${card4} 1200w`,
       alt: "Property showcase 4",
       height: "h-[170px] sm:h-[230px] md:h-[290px]",
       width: "max-w-[240px] sm:max-w-[400px] md:max-w-xl"
@@ -79,13 +72,13 @@ const HeroSection = () => {
 
   return (
     <section className="min-h-screen relative overflow-hidden">
-      {/* Background Image - Optimized as <img> for better LCP */}
+      {/* Background Image - Optimized with ImageKit */}
       <img
-        src="https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1920,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg"
-        srcSet="
-          https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_800,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg 800w,
-          https://res.cloudinary.com/dgof5pmgh/image/upload/f_auto,q_auto,w_1920,c_limit,dpr_auto/v1770239397/bgd10_bjksz1.jpg 1920w
-        "
+        src={`https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1920/${bgd10}`}
+        srcSet={`
+          https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/${bgd10} 800w,
+          https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1920/${bgd10} 1920w
+        `}
         sizes="100vw"
         alt="Housing DTU Hero Background"
         loading="eager"

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { optimizeSupabaseImage } from "@/lib/cloudinary";
+import { optimizeSupabaseImage, isSupabaseUrl } from '@/lib/imagekit';
 import {
   Wifi, Battery, MoveUp, Droplets, Microwave, Refrigerator,
   UserCheck, Users, CircleDot, WashingMachine, Camera, Home,
