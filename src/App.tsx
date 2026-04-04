@@ -29,6 +29,7 @@ const FlatListingForm = lazyWithRetry(() => import("./pages/FlatListingForm"));
 const PropertyListingSuccess = lazyWithRetry(() => import("./pages/PropertyListingSuccess"));
 const FlatListingSuccess = lazyWithRetry(() => import("./pages/FlatListingSuccess"));
 const AdminDashboard = lazyWithRetry(() => import("./pages/AdminDashboard"));
+const CompassAI = lazyWithRetry(() => import("./pages/CompassAI"));
 
 
 const queryClient = new QueryClient();
@@ -72,6 +73,7 @@ const App = () => (
                   <Route path="/property-listing-success" element={<PropertyListingSuccess />} />
                   <Route path="/flat-listing-success" element={<FlatListingSuccess />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/compass-ai" element={<CompassAI />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

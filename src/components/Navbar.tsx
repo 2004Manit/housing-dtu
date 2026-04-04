@@ -1,10 +1,153 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "@/components/Logo";
+
+/* Compass AI animated border styles — uses a spinning gradient element for the moving border */
+const compassAIStyles = `
+@keyframes compass-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes compass-sparkle-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* ===== Desktop Link ===== */
+.compass-ai-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.compass-ai-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 24px rgba(250, 204, 21, 0.5), 0 0 48px rgba(250, 204, 21, 0.15);
+}
+
+/* Spinning conic gradient that creates the moving yellow border */
+.compass-ai-link .compass-border-spinner {
+  position: absolute;
+  inset: -40px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 55%,
+    #f59e0b 65%,
+    #facc15 72%,
+    #fde047 78%,
+    #facc15 84%,
+    #f59e0b 90%,
+    transparent 100%
+  );
+  animation: compass-rotate 2.5s linear infinite;
+  z-index: 0;
+  border-radius: 0;
+}
+
+/* Inner fill — covers the spinning gradient, leaving only the border visible */
+.compass-ai-link .compass-inner {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  z-index: 1;
+}
+
+.compass-ai-link .compass-content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.compass-ai-link .compass-sparkle {
+  color: #facc15;
+  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.6));
+  animation: compass-sparkle-pulse 2s ease-in-out infinite;
+}
+
+/* ===== Mobile Link ===== */
+.compass-ai-link-mobile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 4px 0;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.compass-ai-link-mobile:hover {
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.3);
+}
+
+.compass-ai-link-mobile .compass-border-spinner {
+  position: absolute;
+  inset: -60px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 55%,
+    #f59e0b 65%,
+    #facc15 72%,
+    #fde047 78%,
+    #facc15 84%,
+    #f59e0b 90%,
+    transparent 100%
+  );
+  animation: compass-rotate 2.5s linear infinite;
+  z-index: 0;
+  border-radius: 0;
+}
+
+.compass-ai-link-mobile .compass-inner {
+  position: absolute;
+  inset: 2px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  z-index: 1;
+}
+
+.compass-ai-link-mobile .compass-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.compass-ai-link-mobile .compass-sparkle {
+  color: #facc15;
+  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.6));
+  animation: compass-sparkle-pulse 2s ease-in-out infinite;
+}
+`;
 
 const Navbar = () => {
   const { user, signOut } = useAuth();
@@ -68,6 +211,7 @@ const Navbar = () => {
 
   return (
     <>
+      <style>{compassAIStyles}</style>
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
           isScrolled 
@@ -106,6 +250,14 @@ const Navbar = () => {
               </Link>
               <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">
                 About Us
+              </Link>
+              <Link to="/compass-ai" className="compass-ai-link" onClick={handleLinkClick}>
+                <div className="compass-border-spinner" />
+                <div className="compass-inner" />
+                <span className="compass-content">
+                  <Sparkles className="w-3.5 h-3.5 compass-sparkle" />
+                  Compass AI
+                </span>
               </Link>
               <Link to="/services" className="text-sm font-medium hover:text-primary transition-colors">
                 Services
@@ -242,6 +394,18 @@ const Navbar = () => {
                       className="flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/10 transition-all duration-200"
                     >
                       <span className="text-sm font-medium">About Us</span>
+                    </Link>
+                    <Link
+                      to="/compass-ai"
+                      onClick={handleLinkClick}
+                      className="compass-ai-link-mobile"
+                    >
+                      <div className="compass-border-spinner" />
+                      <div className="compass-inner" />
+                      <span className="compass-content">
+                        <Sparkles className="w-4 h-4 compass-sparkle" />
+                        Compass AI
+                      </span>
                     </Link>
                     <Link
                       to="/services"
