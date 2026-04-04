@@ -119,7 +119,6 @@ const PAGE_STYLES = `
 .compass-logo {
   display: flex; align-items: center; gap: 12px;
   margin-bottom: 0;
-  animation: slideInLeft 0.8s ease-out 0.3s both;
 }
 .compass-logo svg.compass-icon {
   animation: compassSpin 12s linear infinite;
@@ -149,7 +148,6 @@ const PAGE_STYLES = `
   padding: 6px 16px;
   margin-bottom: 28px;
   width: fit-content;
-  animation: fadeIn 0.7s ease-out 0.5s both;
 }
 .compass-early-badge .dot {
   width: 7px; height: 7px;
@@ -173,7 +171,6 @@ const PAGE_STYLES = `
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin: 0 0 20px;
-  animation: slideUp 0.9s ease-out 0.7s both;
 }
 .compass-headline em {
   font-style: normal;
@@ -188,14 +185,12 @@ const PAGE_STYLES = `
   line-height: 1.6;
   margin-bottom: 32px;
   max-width: 400px;
-  animation: slideUp 0.9s ease-out 0.9s both;
 }
 
 /* ── Form ─────────────────────────────────────────────────────────── */
 .compass-form {
   display: flex; gap: 0;
   width: 100%; max-width: 440px;
-  animation: slideUp 0.8s ease-out 1.1s both;
 }
 .compass-form.hiding {
   animation: formFadeOut 0.4s ease forwards;
@@ -256,7 +251,6 @@ const PAGE_STYLES = `
 /* ── Inline footer (below form) ───────────────────────────────────── */
 .compass-footer-inline {
   margin-top: 16px;
-  animation: fadeIn 0.8s ease-out 1.4s both;
 }
 .compass-footer-inline p {
   font-family: 'Inter', sans-serif;
@@ -581,12 +575,10 @@ const PAGE_STYLES = `
   margin-bottom: 20px;
   margin-top: 30px;
   width: fit-content;
-  animation: fadeIn 0.7s ease-out 0.5s both;
 }
   .compass-footer-inline {
   margin-top: 16px;
   margin-bottom: 24px;
-  animation: fadeIn 0.8s ease-out 1.4s both;
 }
 
   .compass-headline { font-size: clamp(30px, 6vw, 46px); }
