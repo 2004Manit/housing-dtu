@@ -7,21 +7,22 @@ interface SplashScreenManagerProps {
 
 export default function SplashScreenManager({ children }: SplashScreenManagerProps) {
   // Check sessionStorage synchronously during initialization to prevent content flash
+
+
   const [showSplash, setShowSplash] = useState(() => {
     const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
-    // Show splash if user hasn't seen it yet in this session
-    return !hasSeenSplash;
+    const isCompassAI = window.location.pathname === "/compass-ai";
+
+    return !hasSeenSplash && !isCompassAI;
   });
 
   useEffect(() => {
-    // Check if splash has been shown in this tab session
     const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+    const isCompassAI = window.location.pathname === "/compass-ai";
 
-    if (!hasSeenSplash) {
-      // First time in this tab - show splash as overlay
+    if (!hasSeenSplash && !isCompassAI) {
       setShowSplash(true);
 
-      // After 4.5 seconds (splash animation duration), hide splash and mark as seen
       const timer = setTimeout(() => {
         setShowSplash(false);
         sessionStorage.setItem("hasSeenSplash", "true");
@@ -29,7 +30,6 @@ export default function SplashScreenManager({ children }: SplashScreenManagerPro
 
       return () => clearTimeout(timer);
     }
-    // Already seen in this tab - don't show splash (content still renders immediately)
   }, []);
 
   return (

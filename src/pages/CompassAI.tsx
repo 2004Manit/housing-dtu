@@ -1065,11 +1065,9 @@ const CompassAI = () => {
 
   /* ── Go back (browser history) ──────────────────────────────── */
   const handleGoBack = useCallback(() => {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = 'https://housingdtu.in';
-    }
+
+    window.location.href = 'https://housingdtu.in';
+
   }, []);
 
   return (
@@ -1116,7 +1114,7 @@ const CompassAI = () => {
             <p className="compass-sub">
               Subscribe to be the first to know when we launch and{" "}
               <span style={{
-                background: "linear-gradient(to right, #D6C7FF, #AB8BFF)",
+                background: "linear-gradient(to right, #d6c7ffff, #AB8BFF)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -1174,7 +1172,7 @@ const CompassAI = () => {
 
         {/* ── Back to Housing DTU — fixed bottom center, all screens ── */}
         <button className="compass-back-link" onClick={handleGoBack}>
-          ← Back to Housing DTU
+          ← Go to Housing DTU
         </button>
 
       </div>
