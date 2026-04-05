@@ -1147,7 +1147,7 @@ const CompassAI = () => {
                   <path d="M14 27 L22 35 L38 18" fill="none" stroke="#F0A500" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <p className="compass-success-msg">
-                  ✅ You're on the list! We'll be in touch.
+                  You're on the list! We'll be in touch.
                 </p>
               </div>
             )}
