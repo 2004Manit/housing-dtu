@@ -4,6 +4,8 @@ import { Plus, Users, Phone, MessageCircle, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { PropertyFooter } from "@/components/PropertyFooter";
 import { supabase } from "@/lib/supabase";
+import { fetchFlatmateContact } from "@/lib/propertyColumns";
+import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,10 +15,12 @@ interface FlatmateQuery {
     name: string;
     budget: string;
     flatmates_required: string;
-    contact_no: string;
     status: 'open' | 'closed';
     verified: boolean;
     created_at: string;
+    // contact_no is deliberately absent: the database does not send it to the
+    // browser with the list. It is revealed one row at a time to signed-in
+    // users via the get_flatmate_contact RPC.
 }
 
 const FlatmateRequirementQueries = () => {
@@ -24,6 +28,13 @@ const FlatmateRequirementQueries = () => {
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const { toast } = useToast();
+    const { user } = useAuth();
+
+    // Contact numbers revealed so far, keyed by query id. Revealing is per-row
+    // and on demand rather than automatic, so a single page load never hands a
+    // signed-in scraper the whole list of student phone numbers.
+    const [contacts, setContacts] = useState<Record<string, string | null>>({});
+    const [revealingId, setRevealingId] = useState<string | null>(null);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -50,7 +61,8 @@ const FlatmateRequirementQueries = () => {
             setLoading(true);
             const { data, error } = await supabase
                 .from('flatmate_queries')
-                .select('*')
+                // contact_no is excluded on purpose — see FlatmateQuery above.
+                .select('id,name,budget,flatmates_required,status,verified,created_at')
                 .eq('verified', true)
                 .order('created_at', { ascending: false });
 
@@ -145,6 +157,23 @@ const FlatmateRequirementQueries = () => {
     };
 
     // Open WhatsApp
+    // Ask the server for one contact number. Requires a signed-in user; the RPC
+    // rejects anonymous callers, so this is enforced in the database, not here.
+    const revealContact = async (queryId: string) => {
+        setRevealingId(queryId);
+        const phone = await fetchFlatmateContact(queryId);
+        setContacts((prev) => ({ ...prev, [queryId]: phone }));
+        setRevealingId(null);
+
+        if (!phone) {
+            toast({
+                title: "Contact unavailable",
+                description: "We couldn't load this contact number. Please try again.",
+                variant: "destructive",
+            });
+        }
+    };
+
     const openWhatsApp = (contactNo: string, name: string) => {
         const message = encodeURIComponent(
             `Hi ${name}, I saw your query regarding flatmate requirement on Housing DTU. Is it still open?`
@@ -287,20 +316,38 @@ const FlatmateRequirementQueries = () => {
                                                     <p className="text-sm sm:text-base font-semibold text-white">{query.flatmates_required}</p>
                                                 </div>
 
-                                                {/* Contact */}
+                                                {/* Contact — revealed on request, signed-in users only */}
                                                 <div>
                                                     <p className="text-xs sm:text-sm text-slate-400 mb-1">Contact</p>
-                                                    <p className="text-sm sm:text-base font-semibold text-white flex items-center gap-1.5">
-                                                        <Phone className="w-3.5 h-3.5" />
-                                                        {query.contact_no}
-                                                    </p>
+                                                    {!user ? (
+                                                        <p className="text-sm sm:text-base font-medium text-slate-400">
+                                                            Sign in to view
+                                                        </p>
+                                                    ) : contacts[query.id] ? (
+                                                        <p className="text-sm sm:text-base font-semibold text-white flex items-center gap-1.5">
+                                                            <Phone className="w-3.5 h-3.5" />
+                                                            {contacts[query.id]}
+                                                        </p>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => revealContact(query.id)}
+                                                            disabled={revealingId === query.id}
+                                                            className="text-sm sm:text-base font-semibold text-green-400 hover:text-green-300 underline underline-offset-2 disabled:opacity-50"
+                                                        >
+                                                            {revealingId === query.id ? 'Loading…' : 'Show contact'}
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </div>
 
-                                            {/* WhatsApp Button */}
+                                            {/* WhatsApp Button — needs a revealed number */}
                                             <Button
-                                                onClick={() => openWhatsApp(query.contact_no, query.name)}
-                                                className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group"
+                                                onClick={() => {
+                                                    const phone = contacts[query.id];
+                                                    if (phone) openWhatsApp(phone, query.name);
+                                                }}
+                                                disabled={!contacts[query.id]}
+                                                className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-40 disabled:cursor-not-allowed"
                                             >
                                                 <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                                                 <span className="text-sm sm:text-base">Contact on WhatsApp</span>

@@ -8,6 +8,7 @@ import { Home } from "lucide-react";
 import { Link } from "react-router-dom";
 import AnimatedSearchBar from '@/components/AnimatedSearchBar';
 import { supabase } from "@/lib/supabase";
+import { PROPERTY_LIST_COLUMNS } from "@/lib/propertyColumns";
 import HeroSection from '@/components/HeroSection';
 
 // AnimateOnScroll Component
@@ -54,7 +55,7 @@ const Properties = () => {
 
         const { data, error } = await supabase
           .from('properties')
-          .select('*')
+          .select(PROPERTY_LIST_COLUMNS)
           .in('status', ['available', 'contact-owner', 'not-available'])
           .order('created_at', { ascending: false });
 
@@ -92,7 +93,9 @@ const Properties = () => {
           flatDetails: property.type === 'Flat' ? {
             flatSize: property.flat_size,
           } : undefined,
-          ownerPhone: property.owner_phone,
+          // owner_phone is intentionally not fetched here — contact numbers are
+          // served only to signed-in users, one listing at a time, on the
+          // detail page. See src/lib/propertyColumns.ts
           listedDate: property.listed_date,
           roomPricing: property.type === 'PG' ? {
             singleSharing: property.room_pricing_single,

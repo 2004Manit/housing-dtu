@@ -11,6 +11,7 @@ import { GoogleMapSection } from "@/components/GoogleMapSection";
 import { PropertyFooter } from "@/components/PropertyFooter";
 // import { properties } from "@/data/properties";
 import { supabase } from "@/lib/supabase";
+import { PROPERTY_DETAIL_COLUMNS, fetchOwnerPhone } from "@/lib/propertyColumns";
 import { useAuth } from "@/hooks/use-auth";
 
 const PropertyDetail = () => {
@@ -24,6 +25,8 @@ const PropertyDetail = () => {
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Owner contact, fetched on demand for signed-in users only (see effect below).
+  const [ownerPhone, setOwnerPhone] = useState<string | null>(null);
 
   // Scroll to top on mount
   useEffect(() => {
@@ -39,7 +42,7 @@ const PropertyDetail = () => {
 
         const { data, error } = await supabase
           .from('properties')
-          .select('*')
+          .select(PROPERTY_DETAIL_COLUMNS)
           .eq('id', parseInt(id)) // ID is a number in database
           .single(); // Fetch single property
 
@@ -89,7 +92,8 @@ const PropertyDetail = () => {
             brokerage: data.brokerage,
           } : undefined,
 
-          ownerPhone: data.owner_phone,
+          // Filled in separately by the effect below, for signed-in users only.
+          ownerPhone: null as string | null,
           listedDate: data.listed_date,
 
           roomPricing: data.type === 'PG' ? {
@@ -133,6 +137,27 @@ const PropertyDetail = () => {
       fetchProperty();
     }
   }, [id, navigate]);
+
+  // Load the owner's contact number separately, and only for signed-in users.
+  // The number is not part of the listing payload: the database refuses to send
+  // owner_phone to the anon role at all, so an anonymous visitor cannot read it
+  // out of the network response. Signing in (or out) re-runs this effect.
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!id || !user) {
+      setOwnerPhone(null);
+      return;
+    }
+
+    fetchOwnerPhone(id).then((phone) => {
+      if (!cancelled) setOwnerPhone(phone);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id, user]);
 
   // Testimonials data
   const testimonials = [
@@ -514,14 +539,19 @@ const PropertyDetail = () => {
                     </div>
                     <div>
                       <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wide mb-0.5 sm:mb-1">Phone Number</p>
-                      <p className="text-base sm:text-lg font-bold text-green-400">{property.ownerPhone}</p>
+                      <p className="text-base sm:text-lg font-bold text-green-400">
+                        {ownerPhone ?? 'Not available'}
+                      </p>
                     </div>
                   </div>
 
                   {/* WhatsApp Button */}
                   <Button
                     onClick={() => {
-                      const phone = property.ownerPhone.replace(/[^0-9]/g, '');
+                      // Guard: listings published without a WhatsApp number have
+                      // no contact on file, and the RPC returns null for them.
+                      if (!ownerPhone) return;
+                      const phone = ownerPhone.replace(/[^0-9]/g, '');
                       const message = encodeURIComponent(
                         `Hi, I came across your property "${property.title}" on Housing DTU and would like to know more details. Is it still available?`
                       );
@@ -671,7 +701,9 @@ const PropertyDetail = () => {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Phone Number</p>
-                    <p className="text-lg font-bold text-green-400">{property.ownerPhone}</p>
+                    <p className="text-lg font-bold text-green-400">
+                      {ownerPhone ?? 'Not available'}
+                    </p>
                   </div>
                 </motion.div>
 
@@ -685,7 +717,10 @@ const PropertyDetail = () => {
                 >
                   <Button
                     onClick={() => {
-                      const phone = property.ownerPhone.replace(/[^0-9]/g, '');
+                      // Guard: listings published without a WhatsApp number have
+                      // no contact on file, and the RPC returns null for them.
+                      if (!ownerPhone) return;
+                      const phone = ownerPhone.replace(/[^0-9]/g, '');
                       const message = encodeURIComponent(
                         `Hi, I came across your property "${property.title}" on Housing DTU and would like to know more details. Is it still available?`
                       );

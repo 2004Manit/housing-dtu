@@ -238,7 +238,9 @@ const handlePublishProperty = async () => {
     const { data: newProperty, error: insertError } = await supabase
       .from('properties')
       .insert(propertyData)
-      .select()
+      // Read back only the id: no role can SELECT owner_phone, so a bare
+      // .select() (which expands to every column) would be denied.
+      .select('id')
       .single();
 
     if (insertError) {
@@ -357,7 +359,9 @@ const handleSaveAsDraft = async () => {
     const { data: newProperty, error: insertError } = await supabase
       .from('properties')
       .insert(propertyData)
-      .select()
+      // Read back only the id: no role can SELECT owner_phone, so a bare
+      // .select() (which expands to every column) would be denied.
+      .select('id')
       .single();
 
     if (insertError) {
