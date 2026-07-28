@@ -924,7 +924,6 @@ const Index = () => {
                       playsInline
                       preload="metadata"
                       disablePictureInPicture
-                      poster="https://ik.imagekit.io/bpt0bijnm/tr:f-jpg,q-auto/uploaded-video1.mp4"
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
                         video1Ref.current?.play().catch(() => { });
@@ -933,8 +932,10 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <source src="https://ik.imagekit.io/bpt0bijnm/tr:w-1280/uploaded-video1.mp4" type="video/mp4" media="(max-width: 768px)" />
-                      <source src="https://ik.imagekit.io/bpt0bijnm/uploaded-video1.mp4" type="video/mp4" />
+                      {/* Served from public/ -- the file is 886 KB, so the
+                          separate downscaled mobile variant ImageKit used to
+                          generate is not worth a second asset. */}
+                      <source src="/uploaded-video1.mp4" type="video/mp4" />
                     </video>
 
                     <div className="device-shine"></div>
@@ -1126,7 +1127,6 @@ const Index = () => {
                       playsInline
                       preload="metadata"
                       disablePictureInPicture
-                      poster="https://ik.imagekit.io/bpt0bijnm/tr:f-jpg,q-auto/uploaded-video2.mp4"
                       onLoadedData={() => {
                         // Force play when video data is loaded (mobile fix)
                         video2Ref.current?.play().catch(() => { });
@@ -1135,8 +1135,8 @@ const Index = () => {
                       className="w-full h-full object-cover pointer-events-none"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <source src="https://ik.imagekit.io/bpt0bijnm/tr:w-1280/uploaded-video2.mp4" type="video/mp4" media="(max-width: 768px)" />
-                      <source src="https://ik.imagekit.io/bpt0bijnm/uploaded-video2.mp4" type="video/mp4" />
+                      {/* Served from public/ -- 565 KB. */}
+                      <source src="/uploaded-video2.mp4" type="video/mp4" />
                     </video>
 
                     <div className="device-shine"></div>

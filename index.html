@@ -15,10 +15,6 @@
   <link rel="preload" href="/model.glb" as="fetch" crossorigin="anonymous">
 
 
-  <!-- Preconnect to ImageKit CDN for faster image delivery -->
-  <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
-  <link rel="dns-prefetch" href="https://ik.imagekit.io">
-
   <!-- Preconnect to Google Fonts for faster font delivery -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,29 +22,21 @@
   <!-- Google Font - Sora (used in hero section) with font-display:swap for non-blocking load -->
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&display=swap" rel="stylesheet">
 
-  <!-- Preload hero video poster for faster LCP -->
-  <link rel="preload" as="image"
-    href="https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto/best-video-new.jpg"
-    fetchpriority="high">
+  <!--
+    Hero image preloads used to live here, pointing at ImageKit URLs. They were
+    removed when the hero assets moved to pre-compressed local WebP files: Vite
+    fingerprints those filenames at build time, so static HTML cannot reference
+    them. The hero's own <img> carries fetchPriority="high", and HeroSection.tsx
+    injects a preload for the first carousel card at runtime.
 
-  <!-- Preload critical LCP images -->
-  <!-- Hero background - mobile -->
-  <link rel="preload" as="image"
-    href="https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/bgd10.jpg"
-    media="(max-width: 768px)" fetchpriority="high">
-  <!-- Hero background - desktop -->
-  <link rel="preload" as="image"
-    href="https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-1920/bgd10.jpg"
-    media="(min-width: 769px)" fetchpriority="high">
+    Also removed: a preload for best-video-new.jpg, which no longer existed --
+    nothing on the site referenced it, so every page load was fetching an
+    unused image.
+  -->
 
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
     rel="stylesheet">
-
-  <!-- Preload first carousel card - mobile -->
-  <link rel="preload" as="image"
-    href="https://ik.imagekit.io/bpt0bijnm/tr:f-auto,q-auto,w-800/card1.png"
-    media="(max-width: 768px)">
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

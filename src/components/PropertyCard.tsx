@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { optimizeSupabaseImage, isSupabaseUrl } from '@/lib/imagekit';
 import {
   Wifi, Battery, MoveUp, Droplets, Microwave, Refrigerator,
   UserCheck, Users, CircleDot, WashingMachine, Camera, Home,
@@ -146,9 +145,12 @@ const PropertyCard = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
 
-  // Optimize images through Cloudinary
+  // Served straight from Supabase Storage. These used to be proxied through
+  // ImageKit for resizing; that bandwidth ran out and broke every listing
+  // thumbnail. Thumbnails are instead generated at upload time (see
+  // src/lib/imageCompression.ts), so no runtime transform is needed.
   const imageArray = images.length > 0 ? images : [image];
-  const optimizedImages = imageArray.map(img => optimizeSupabaseImage(img));
+  const optimizedImages = imageArray;
 
   const handlePrevImage = (e: React.MouseEvent) => {
     e.preventDefault();
