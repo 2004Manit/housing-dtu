@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X, Sparkles } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { motion, AnimatePresence } from "framer-motion";
@@ -42,7 +42,7 @@ const compassAIStyles = `
   box-shadow: 0 0 24px rgba(250, 204, 21, 0.5), 0 0 48px rgba(250, 204, 21, 0.15);
 }
 
-/* Spinning conic gradient that creates the moving yellow border */
+/* Spinning conic gradient that creates the moving border */
 .compass-ai-link .compass-border-spinner {
   position: absolute;
   inset: -40px;
@@ -50,11 +50,11 @@ const compassAIStyles = `
     from 0deg,
     transparent 0%,
     transparent 55%,
-    #f59e0b 65%,
-    #facc15 72%,
-    #fde047 78%,
-    #facc15 84%,
-    #f59e0b 90%,
+    #b7e02f 65%,
+    #d5ff45 72%,
+    #e6ff8a 78%,
+    #d5ff45 84%,
+    #b7e02f 90%,
     transparent 100%
   );
   animation: compass-rotate 2.5s linear infinite;
@@ -79,9 +79,11 @@ const compassAIStyles = `
   gap: 6px;
 }
 
-.compass-ai-link .compass-sparkle {
-  color: #facc15;
-  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.6));
+.compass-ai-link .compass-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(213, 255, 69, 0.6));
   animation: compass-sparkle-pulse 2s ease-in-out infinite;
 }
 
@@ -114,11 +116,11 @@ const compassAIStyles = `
     from 0deg,
     transparent 0%,
     transparent 55%,
-    #f59e0b 65%,
-    #facc15 72%,
-    #fde047 78%,
-    #facc15 84%,
-    #f59e0b 90%,
+    #b7e02f 65%,
+    #d5ff45 72%,
+    #e6ff8a 78%,
+    #d5ff45 84%,
+    #b7e02f 90%,
     transparent 100%
   );
   animation: compass-rotate 2.5s linear infinite;
@@ -142,9 +144,11 @@ const compassAIStyles = `
   gap: 10px;
 }
 
-.compass-ai-link-mobile .compass-sparkle {
-  color: #facc15;
-  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.6));
+.compass-ai-link-mobile .compass-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(213, 255, 69, 0.6));
   animation: compass-sparkle-pulse 2s ease-in-out infinite;
 }
 `;
@@ -251,14 +255,20 @@ const Navbar = () => {
               <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">
                 About Us
               </Link>
-              <Link to="/compass-ai" className="compass-ai-link" onClick={handleLinkClick}>
+              <a
+                href="https://trycompass.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="compass-ai-link"
+                onClick={handleLinkClick}
+              >
                 <div className="compass-border-spinner" />
                 <div className="compass-inner" />
                 <span className="compass-content">
-                  <Sparkles className="w-3.5 h-3.5 compass-sparkle" />
+                  <img src="/compasslogo.svg" alt="" aria-hidden="true" className="compass-logo" />
                   Compass AI
                 </span>
-              </Link>
+              </a>
               <Link to="/services" className="text-sm font-medium hover:text-primary transition-colors">
                 Services
               </Link>
@@ -395,18 +405,20 @@ const Navbar = () => {
                     >
                       <span className="text-sm font-medium">About Us</span>
                     </Link>
-                    <Link
-                      to="/compass-ai"
+                    <a
+                      href="https://trycompass.in/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={handleLinkClick}
                       className="compass-ai-link-mobile"
                     >
                       <div className="compass-border-spinner" />
                       <div className="compass-inner" />
                       <span className="compass-content">
-                        <Sparkles className="w-4 h-4 compass-sparkle" />
+                        <img src="/compasslogo.svg" alt="" aria-hidden="true" className="compass-logo" />
                         Compass AI
                       </span>
-                    </Link>
+                    </a>
                     <Link
                       to="/services"
                       onClick={handleLinkClick}
