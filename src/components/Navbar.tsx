@@ -13,11 +13,6 @@ const compassAIStyles = `
   100% { transform: rotate(360deg); }
 }
 
-@keyframes compass-sparkle-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.85); }
-}
-
 /* ===== Desktop Link ===== */
 .compass-ai-link {
   position: relative;
@@ -84,7 +79,6 @@ const compassAIStyles = `
   height: 16px;
   object-fit: contain;
   filter: drop-shadow(0 0 4px rgba(213, 255, 69, 0.6));
-  animation: compass-sparkle-pulse 2s ease-in-out infinite;
 }
 
 /* ===== Mobile Link ===== */
@@ -149,7 +143,6 @@ const compassAIStyles = `
   height: 20px;
   object-fit: contain;
   filter: drop-shadow(0 0 4px rgba(213, 255, 69, 0.6));
-  animation: compass-sparkle-pulse 2s ease-in-out infinite;
 }
 `;
 
