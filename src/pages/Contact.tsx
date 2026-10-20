@@ -37,7 +37,8 @@ const ContactUsPage = () => {
       }
 
       // Insert into Supabase
-      const { data, error } = await supabase
+      // No .select(): the inbox is write-only, so reading the row back is denied.
+      const { error } = await supabase
         .from('contact_submissions')
         .insert([
           {
@@ -46,8 +47,7 @@ const ContactUsPage = () => {
             subject: formData.subject,
             message: formData.message,
           }
-        ])
-        .select();
+        ]);
 
       if (error) {
         console.error('❌ Error submitting form:', error);
@@ -57,7 +57,7 @@ const ContactUsPage = () => {
         throw error;
       }
 
-      console.log('✅ Form submitted successfully:', data);
+      console.log('✅ Form submitted successfully');
 
       // Show success message
       setShowSuccess(true);
